@@ -253,6 +253,7 @@ def withdrawTributes() -> bool:
     assert self.owner == msg.sender
     if self.owner == msg.sender:
         send(self.owner, self.balance)
+        self.tributeBalance = 0
         return True
     else:
         raise "Not the contract Owner"

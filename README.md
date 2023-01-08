@@ -17,9 +17,8 @@ There is no cooldown to burn fortunes.
 
 The FORTUNE tokens have unlimited supply, but can only be minted by Saturn Series Legend NFT holders
 
-The output of good or bad has been randomized.
+The output of good or bad has been naively randomized, it uses a mix of `block.prevrandao`, `block.timestamp`, and the optional gwei sent as a tribute (`msg.value`) to calculate if the event is GOOD or BAD.
 
-The game consists on using any means possible to get as many GOOD fortune events emited for burning the FORTUNE tokens.
-
+The challenge of the game consists on using any means possible (MEV) to get as many GOOD fortune events emited for burning the FORTUNE tokens.
 
 
