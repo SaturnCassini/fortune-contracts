@@ -1,7 +1,25 @@
 # Fortune Contracts
-The system implements 2 ERC20 tokens, of GOOD and BAD fortunes.
 
-The tokens have unlimited supply and can be minted once a day
+ERC20 contract for Fortune tokens of [Saturn Series](https://saturnseries.com).
 
-The output of good or bad has to be randomized.
+<p align="center">
+  <img src="public/card.png" height="350" alt="Fortune Card Illustration" title="Fortune Cards Contract">
+</p>
+
+--
+
+##  Overview
+The system implements one ERC20 token called FORTUNE
+The token can be minted with a cooldown of one token per day
+The token is transferrable
+The FORTUNE can be burned to emit an event of GOOD and BAD fortunes.
+There is no cooldown to burn fortunes.
+
+The FORTUNE tokens have unlimited supply, but can only be minted by Saturn Series Legend NFT holders
+
+The output of good or bad has been randomized.
+
+The game consists on using any means possible to get as many GOOD fortune events emited for burning the FORTUNE tokens.
+
+
 

@@ -12,9 +12,6 @@
         https://eips.ethereum.org/EIPS/eip-20
 """
 
-from vyper.interfaces import ERC20
-
-implements: ERC20
 
 interface LegendsContract:
     def balanceOf(_owner: address) -> uint256: view
@@ -206,14 +203,17 @@ def getFortuneChestBalance() -> uint256:
     """
     return self.balance
 
+# Admin functions
+
 @external
 def currentOwner() -> address:
     """
     @notice Getter to check the current owner of the fortune chest
     @dev this is not yet tested and should be used with caution    
     """
+    
     return self.owner 
-
+    
 @external
 def setOwner(new_owner:address) -> bool:
     """
@@ -223,8 +223,25 @@ def setOwner(new_owner:address) -> bool:
     @param _legend The address to burn from
     @return Success boolean
     """
+    assert self.owner == msg.sender
     if self.owner == msg.sender:
         self.owner = new_owner
         return True
     else:
         raise "Not a Legend"
+
+@external
+def withdrawTributes() -> bool:
+    """
+    @notice Withdraw the ETH from the fortune chest
+    @dev this is not yet tested and should be used with caution
+    @dev You could add an assert here to make sure the owner of the nft is the one who can burn
+    @param _legend The address to burn from
+    @return Success boolean
+    """
+    assert self.owner == msg.sender
+    if self.owner == msg.sender:
+        send(self.owner, self.balance)
+        return True
+    else:
+        raise "Not the contract Owner"
