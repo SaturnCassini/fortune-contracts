@@ -185,7 +185,7 @@ def burnFortune() -> bool:
         self.balances[msg.sender] -= 1
         self.tributeBalance += msg.value
 
-        if (self.balance +block.prevrandao + block.timestamp + msg.value ) % 2 == 0:
+        if ((self.balance +block.prevrandao + block.timestamp + msg.value ) % 23) % 2 == 0:
             log BurnFortune(msg.sender, 'GOOD')
             return True
         else:
