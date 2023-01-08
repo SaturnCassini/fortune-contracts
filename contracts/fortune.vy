@@ -8,8 +8,15 @@
         starting point for the final implementation
 @notice Owners of the Legends NFT can mint an unrevealed Fortune
         card as an ERC20 to any address.
-@notice Based on the ERC-20 token standard as defined at
-        https://eips.ethereum.org/EIPS/eip-20
+@notice The Fortune cards can be burned to generate an event of GOOD or BAD
+        fortune. The event is a string of 4 characters, which can be used
+        by the frontend to display a message, and for the game to build upon it later.
+@notice The Fortune cards can be traded, but only the owner of the NFT can mint
+        a new Fortune card.
+@notice When the FORTUNE card is burnt, the burner can pay a tribute to alter the event.
+        The tribute is paid in ETH.
+@notice There is a withdraw function that can only be called by the owner of the contract.
+        This is to allow the owner to withdraw the ETH tributes.
 """
 
 
