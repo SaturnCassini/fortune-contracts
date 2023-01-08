@@ -176,7 +176,7 @@ def burnFortune() -> bool:
     if self.legendsContract.balanceOf(msg.sender) > 0: # if the caller is a legend
         self.totalSupply -= 1
         self.balances[msg.sender] -= 1
-        if (block.prevrandao) % 2 == 0:
+        if (block.prevrandao + block.timestamp) % 2 == 0:
             log BurnFortune(msg.sender, 'GOOD')
             return True
         else:
@@ -213,6 +213,7 @@ def currentOwner() -> address:
     @dev this is not yet tested and should be used with caution    
     """
     return self.owner 
+
 @external
 def setOwner(new_owner:address) -> bool:
     """
