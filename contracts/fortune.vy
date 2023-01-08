@@ -110,6 +110,9 @@ def approve(_spender : address, _value : uint256) -> bool:
 def _transfer(_from: address, _to: address, _value: uint256):
     """
     @dev Internal shared logic for transfer and transferFrom
+    @param _from The address which you want to send tokens from
+    @param _to The address which you want to transfer to
+    @param _value The amount of tokens to be transferred
     """
     assert self.balances[_from] >= _value, "Insufficient balance"
     self.balances[_from] -= _value
@@ -227,7 +230,7 @@ def setOwner(new_owner:address) -> bool:
     @notice Setter to set the owner of the fortune chest
     @dev this is not yet tested and should be used with caution
     @dev You could add an assert here to make sure the owner of the nft is the one who can burn
-    @param _legend The address to burn from
+    @param new_owner The address that will be the new owner of the contract
     @return Success boolean
     """
     assert self.owner == msg.sender
@@ -243,7 +246,6 @@ def withdrawTributes() -> bool:
     @notice Withdraw the ETH from the fortune chest
     @dev this is not yet tested and should be used with caution
     @dev You could add an assert here to make sure the owner of the nft is the one who can burn
-    @param _legend The address to burn from
     @return Success boolean
     """
     assert self.owner == msg.sender
