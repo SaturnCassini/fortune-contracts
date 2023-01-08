@@ -43,7 +43,6 @@ event BurnFortune:
 
 name: public(String[64])
 symbol: public(String[32])
-decimals: public(uint256)
 totalSupply: public(uint256)
 legendsContract: LegendsContract
 
@@ -55,10 +54,9 @@ fortuneContract: public(address)
 owner: public(address)
 
 @external
-def __init__(_name: String[64], _symbol: String[32], _decimals: uint256, _total_supply: uint256, legendsAddress: address):
+def __init__(_name: String[64], _symbol: String[32], _total_supply: uint256, legendsAddress: address):
     self.name = _name
     self.symbol = _symbol
-    self.decimals = _decimals
     self.balances[msg.sender] = _total_supply
     self.totalSupply = _total_supply
     self.legendsContract = LegendsContract(legendsAddress)
