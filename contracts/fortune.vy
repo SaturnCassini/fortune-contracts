@@ -51,6 +51,7 @@ allowances: HashMap[address, HashMap[address, uint256]]
 lastMinted: HashMap[address, uint256]
 fortuneContract: public(address)
 
+tributeBalance: public(uint256)
 owner: public(address)
 
 @external
@@ -168,6 +169,7 @@ def mintFortune(to: address) -> bool:
     else:
         raise "Not a Legend"
 
+@payable
 @external
 def burnFortune() -> bool:
     """
@@ -181,7 +183,9 @@ def burnFortune() -> bool:
     if self.legendsContract.balanceOf(msg.sender) > 0: # if the caller is a legend
         self.totalSupply -= 1
         self.balances[msg.sender] -= 1
-        if (block.prevrandao + block.timestamp) % 2 == 0:
+        self.tributeBalance += msg.value
+
+        if (self.balance +block.prevrandao + block.timestamp + msg.value ) % 2 == 0:
             log BurnFortune(msg.sender, 'GOOD')
             return True
         else:
