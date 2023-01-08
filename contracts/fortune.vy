@@ -1,7 +1,13 @@
 # @version ^0.3.7
 
 """
-@title Bare-bones Token implementation
+@title Bare-bones Token implementation of the Fortune cards
+@author: @0xcassini.eth
+@notice This is a bare-bones implementation of the Fortune cards
+        It is not meant to be used in production, but rather as a
+        starting point for the final implementation
+@notice Owners of the Legends NFT can mint an unrevealed Fortune
+        card as an ERC20 to any address.
 @notice Based on the ERC-20 token standard as defined at
         https://eips.ethereum.org/EIPS/eip-20
 """
@@ -27,6 +33,10 @@ event MintFortune:
     receiver: indexed(address)
     value: uint256
 
+event BurnFortune:
+    legend: indexed(address)
+    value: String[4]
+
 name: public(String[64])
 symbol: public(String[32])
 decimals: public(uint256)
@@ -35,9 +45,10 @@ legendsContract: LegendsContract
 
 balances: HashMap[address, uint256]
 allowances: HashMap[address, HashMap[address, uint256]]
+lastMinted: HashMap[address, uint256]
 fortuneContract: public(address)
 
-
+owner: public(address)
 
 @external
 def __init__(_name: String[64], _symbol: String[32], _decimals: uint256, _total_supply: uint256, legendsAddress: address):
@@ -47,7 +58,9 @@ def __init__(_name: String[64], _symbol: String[32], _decimals: uint256, _total_
     self.balances[msg.sender] = _total_supply
     self.totalSupply = _total_supply
     self.legendsContract = LegendsContract(legendsAddress)
+    self.owner = msg.sender
     log Transfer(empty(address), msg.sender, _total_supply)
+    
 
 @view
 @external
@@ -131,25 +144,24 @@ def transferFrom(_from : address, _to : address, _value : uint256) -> bool:
     return True
 
 @external
-def mintFortune(_to: address) -> bool:
+def mintFortune(to: address) -> bool:
     """
     @notice Mint a fortune to an specified address which holds the nft
     @dev this is not yet tested and should be used with caution
     @dev You could add an assert here to make sure the owner of the nft is the one who can mint
+    @param to: who receives the fortune
     @return True if the caller addres is a legend
     """
-    if self.legendsContract.balanceOf(msg.sender) > 0:
+    if self.legendsContract.balanceOf(msg.sender) > 0: # if the caller is a legend
+        if self.lastMinted[msg.sender] + 3600*24 > block.timestamp: # if 24 hours passed since last mint
+            raise "You can only mint once a day"
         self.totalSupply += 1
         self.balances[msg.sender] += 1
+        self.lastMinted[msg.sender] = block.timestamp
         log MintFortune(msg.sender, 1)
         return True
     else:
-        return False
-    # assert self.legendBalance(msg.sender) > 0, "Not a legend"
-    # self.totalSupply += 1
-    # self.balances[msg.sender] += 1
-    # log MintFortune(msg.sender, 1)
-    # return True
+        raise "Not a Legend"
 
 @external
 def burnFortune() -> bool:
@@ -161,18 +173,57 @@ def burnFortune() -> bool:
     @return Success boolean
     """
     assert self.balances[msg.sender] >= 1, "You dont have a fortune to burn"
-    self.totalSupply -= 1
-    self.balances[msg.sender] -= 1
-    log MintFortune(msg.sender, 1)
-    return True
+    if self.legendsContract.balanceOf(msg.sender) > 0: # if the caller is a legend
+        self.totalSupply -= 1
+        self.balances[msg.sender] -= 1
+        if (block.prevrandao) % 2 == 0:
+            log BurnFortune(msg.sender, 'GOOD')
+            return True
+        else:
+            log BurnFortune(msg.sender, 'BAD')
+            return False
 
+    else:
+        raise "Not a Legend"
 
 @view
 @external
-def legendBalance() -> uint256:
+def getLegendBalance() -> uint256:
     """
     @notice Getter to check the current balance of an address
     @dev this is not yet tested and should be used with caution
     """
-    legends: LegendsContract = LegendsContract(self.legendsContract)
+    legends: LegendsContract = self.legendsContract
     return legends.balanceOf(msg.sender)
+
+@view
+@external
+def getFortuneChestBalance() -> uint256:
+    """
+    @notice Getter to check the current ETH balance of the fortune chest
+    @dev this is not yet tested and should be used with caution
+    @return ETH balance
+    """
+    return self.balance
+
+@external
+def currentOwner() -> address:
+    """
+    @notice Getter to check the current owner of the fortune chest
+    @dev this is not yet tested and should be used with caution    
+    """
+    return self.owner 
+@external
+def setOwner(new_owner:address) -> bool:
+    """
+    @notice Setter to set the owner of the fortune chest
+    @dev this is not yet tested and should be used with caution
+    @dev You could add an assert here to make sure the owner of the nft is the one who can burn
+    @param _legend The address to burn from
+    @return Success boolean
+    """
+    if self.owner == msg.sender:
+        self.owner = new_owner
+        return True
+    else:
+        raise "Not a Legend"
