@@ -2,21 +2,27 @@
 
 """
 @title Bare-bones Token implementation of the Fortune cards
-@author: @0xcassini.eth
 @notice This is a bare-bones implementation of the Fortune cards
         It is not meant to be used in production, but rather as a
         starting point for the final implementation
-@notice Owners of the Legends NFT can mint an unrevealed Fortune
+        
+        Owners of the Legends NFT can mint an unrevealed Fortune
         card as an ERC20 to any address.
-@notice The Fortune cards can be burned to generate an event of GOOD or BAD
+
+        The Fortune cards can be burned to generate an event of GOOD or BAD
         fortune. The event is a string of 4 characters, which can be used
         by the frontend to display a message, and for the game to build upon it later.
-@notice The Fortune cards can be traded, but only the owner of the NFT can mint
+    
+        The Fortune cards can be traded, but only the owner of the NFT can mint
         a new Fortune card.
-@notice When the FORTUNE card is burnt, the burner can pay a tribute to alter the event.
+
+        When the FORTUNE card is burnt, the burner can pay a tribute to alter the event.
         The tribute is paid in ETH.
-@notice There is a withdraw function that can only be called by the owner of the contract.
+
+        There is a withdraw function that can only be called by the owner of the contract.
         This is to allow the owner to withdraw the ETH tributes.
+
+@author 0xcassini.eth
 """
 
 
@@ -41,17 +47,36 @@ event BurnFortune:
     legend: indexed(address)
     value: String[4]
 
+# The Fortune card is an ERC20 token that is tied to the value of the tribute it was minted with
+struct FortuneCard:
+    cardNumber: uint256
+    tribute: uint256
+    dateMinted: uint256
+    randomness: uint256
+    
+
+
 name: public(String[64])
 symbol: public(String[32])
 totalSupply: public(uint256)
 legendsContract: LegendsContract
 
+# The mapping of the Fortune cards
+# The key is the address of the minter of the token
+# The value is the Fortune card's msg.value
+fortunes: HashMap[address, FortuneCard]
+
+# Used to keep track of the number of Fortune cards minted
+mintCount: public(uint256)
+
 balances: HashMap[address, uint256]
 allowances: HashMap[address, HashMap[address, uint256]]
 lastMinted: HashMap[address, uint256]
+
 fortuneContract: public(address)
 
 tributeBalance: public(uint256)
+tributeLost: public(uint256)
 owner: public(address)
 
 @external
@@ -149,13 +174,14 @@ def transferFrom(_from : address, _to : address, _value : uint256) -> bool:
     self._transfer(_from, _to, _value)
     return True
 
+@payable
 @external
 def mintFortune(to: address) -> bool:
     """
     @notice Mint a fortune to an specified address which holds the nft
     @dev this is not yet tested and should be used with caution
     @dev You could add an assert here to make sure the owner of the nft is the one who can mint
-    @param to: who receives the fortune
+    @param to who receives the fortune
     @return True if the caller addres is a legend
     """
     if self.legendsContract.balanceOf(msg.sender) > 0: # if the caller is a legend
@@ -164,31 +190,45 @@ def mintFortune(to: address) -> bool:
         self.totalSupply += 1
         self.balances[msg.sender] += 1
         self.lastMinted[msg.sender] = block.timestamp
+        self.tributeBalance += msg.value
+        self.fortunes[msg.sender] = FortuneCard({
+            cardNumber: self.mintCount,
+            tribute: msg.value,
+            dateMinted: block.timestamp,
+            randomness: block.prevrandao,
+            }
+        )
+        self.mintCount += 1
         log MintFortune(msg.sender, 1)
         return True
     else:
         raise "Not a Legend"
 
-@payable
+
 @external
 def burnFortune() -> bool:
     """
     @notice Burn a fortune from an specified address
     @dev this is not yet tested and should be used with caution
     @dev You could add an assert here to make sure the owner of the nft is the one who can burn
-    @param _legend The address to burn from
     @return Success boolean
     """
+    currentFortune: FortuneCard = self.fortunes[msg.sender]
     assert self.balances[msg.sender] >= 1, "You dont have a fortune to burn"
+    # Make sure there has passed at least 60 seconds since mint
+    assert block.timestamp > currentFortune.dateMinted + 300 , "Wait at least 5 minutes to burn your fortune"
     if self.legendsContract.balanceOf(msg.sender) > 0: # if the caller is a legend
         self.totalSupply -= 1
         self.balances[msg.sender] -= 1
-        self.tributeBalance += msg.value
 
-        if ((self.balance +block.prevrandao + block.timestamp + msg.value ) % 23) % 2 == 0:
+
+        if ((self.balance + block.prevrandao + currentFortune.dateMinted + currentFortune.randomness + currentFortune.cardNumber) % 23) % 2 == 0:
+            self.tributeBalance -= currentFortune.tribute
+            send(msg.sender, currentFortune.tribute)
             log BurnFortune(msg.sender, 'GOOD')
             return True
         else:
+            self.tributeLost += currentFortune.tribute
             log BurnFortune(msg.sender, 'BAD')
             return False
 

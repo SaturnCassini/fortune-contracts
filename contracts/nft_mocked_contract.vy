@@ -1,6 +1,6 @@
 # @version ^0.3.7
 """
-@Title Mock Saturn Series ERC721 Token
+@title Mock Saturn Series ERC721 Token
 @dev This contract replicates the functionality of the ERC721 standard, but
      with a few differences. It is intended to be used for testing purposes
      only.
@@ -26,7 +26,6 @@ def __init__(name: String[64], symbol: String[32], initialSupply: uint256):
     @param name The name of the token
     @param symbol The symbol of the token
     @param initialSupply The initial supply of the token
-    @param fortuneContract The address of the Fortune ERC20 contract
     """
     self.name = name
     self.symbol = symbol
@@ -39,7 +38,6 @@ def __init__(name: String[64], symbol: String[32], initialSupply: uint256):
 def mintNFT(to: address):
     """
     @notice Mint a new mocked NFT
-    @param tokenId The ID of the token to mint
     @param to The address to mint the token to
     """
     self.supply += 1
@@ -47,20 +45,20 @@ def mintNFT(to: address):
     log Mint(to)
 
 @external
-def burnNFT(to: address):
+def burnNFT(cardOwner: address):
     """
     @notice Burn a mocked NFT
-    @param tokenId The ID of the token to burn
+    @param cardOwner The address to burn the token from
     """
     self.supply -= 1
-    self.balances[to] -= 1
-    log Burn(to)
+    self.balances[cardOwner] -= 1
+    log Burn(cardOwner)
     
 @external
 def balanceOf(legend: address) -> uint256:
     """
     @notice Get the balance of a mocked NFT
-    @param address The address to get the balance of
+    @param legend The address to get the balance of
     """
     return self.balances[legend]
 
