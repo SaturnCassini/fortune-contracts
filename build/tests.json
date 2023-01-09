@@ -1,0 +1,8 @@
+{
+  "contracts": {
+    "fortune": "df5170fbadbfdd71aab729ba70b679a747f63368",
+    "nft_mocked_contract": "4dc4a4a0038ea6a953d289d092dc467c97fcad1c"
+  },
+  "tests": {},
+  "tx": {}
+}

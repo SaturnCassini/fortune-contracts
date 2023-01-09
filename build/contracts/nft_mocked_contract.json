@@ -1,0 +1,3403 @@
+{
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "to",
+          "type": "address"
+        }
+      ],
+      "name": "Mint",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "to",
+          "type": "address"
+        }
+      ],
+      "name": "Burn",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "symbol",
+          "type": "string"
+        },
+        {
+          "name": "initialSupply",
+          "type": "uint256"
+        }
+      ],
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [
+        {
+          "name": "to",
+          "type": "address"
+        }
+      ],
+      "name": "mintNFT",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "name": "cardOwner",
+          "type": "address"
+        }
+      ],
+      "name": "burnNFT",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "name": "legend",
+          "type": "address"
+        }
+      ],
+      "name": "balanceOf",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "name",
+      "outputs": [
+        {
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "symbol",
+      "outputs": [
+        {
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "initialSupply",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "name": "arg0",
+          "type": "address"
+        }
+      ],
+      "name": "balances",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "supply",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "allSourcePaths": {
+    "0": "contracts/nft_mocked_contract.vy"
+  },
+  "ast": {
+    "ast_type": "Module",
+    "body": [
+      {
+        "ast_type": "EventDef",
+        "body": [
+          {
+            "annotation": {
+              "args": [
+                {
+                  "ast_type": "Name",
+                  "col_offset": 16,
+                  "end_col_offset": 23,
+                  "end_lineno": 11,
+                  "id": "address",
+                  "lineno": 11,
+                  "node_id": 10,
+                  "src": "279:7:1"
+                }
+              ],
+              "ast_type": "Call",
+              "col_offset": 8,
+              "end_col_offset": 24,
+              "end_lineno": 11,
+              "func": {
+                "ast_type": "Name",
+                "col_offset": 8,
+                "end_col_offset": 15,
+                "end_lineno": 11,
+                "id": "indexed",
+                "lineno": 11,
+                "node_id": 8,
+                "src": "271:7:1"
+              },
+              "keyword": null,
+              "keywords": [],
+              "lineno": 11,
+              "node_id": 7,
+              "src": "271:16:1"
+            },
+            "ast_type": "AnnAssign",
+            "col_offset": 4,
+            "end_col_offset": 24,
+            "end_lineno": 11,
+            "lineno": 11,
+            "node_id": 4,
+            "simple": 1,
+            "src": "267:20:1",
+            "target": {
+              "ast_type": "Name",
+              "col_offset": 4,
+              "end_col_offset": 6,
+              "end_lineno": 11,
+              "id": "to",
+              "lineno": 11,
+              "node_id": 5,
+              "src": "267:2:1"
+            },
+            "value": null
+          }
+        ],
+        "col_offset": 0,
+        "end_col_offset": 24,
+        "end_lineno": 11,
+        "lineno": 10,
+        "name": "Mint",
+        "node_id": 3,
+        "src": "251:36:1"
+      },
+      {
+        "ast_type": "EventDef",
+        "body": [
+          {
+            "annotation": {
+              "args": [
+                {
+                  "ast_type": "Name",
+                  "col_offset": 16,
+                  "end_col_offset": 23,
+                  "end_lineno": 14,
+                  "id": "address",
+                  "lineno": 14,
+                  "node_id": 19,
+                  "src": "317:7:1"
+                }
+              ],
+              "ast_type": "Call",
+              "col_offset": 8,
+              "end_col_offset": 24,
+              "end_lineno": 14,
+              "func": {
+                "ast_type": "Name",
+                "col_offset": 8,
+                "end_col_offset": 15,
+                "end_lineno": 14,
+                "id": "indexed",
+                "lineno": 14,
+                "node_id": 17,
+                "src": "309:7:1"
+              },
+              "keyword": null,
+              "keywords": [],
+              "lineno": 14,
+              "node_id": 16,
+              "src": "309:16:1"
+            },
+            "ast_type": "AnnAssign",
+            "col_offset": 4,
+            "end_col_offset": 24,
+            "end_lineno": 14,
+            "lineno": 14,
+            "node_id": 13,
+            "simple": 1,
+            "src": "305:20:1",
+            "target": {
+              "ast_type": "Name",
+              "col_offset": 4,
+              "end_col_offset": 6,
+              "end_lineno": 14,
+              "id": "to",
+              "lineno": 14,
+              "node_id": 14,
+              "src": "305:2:1"
+            },
+            "value": null
+          }
+        ],
+        "col_offset": 0,
+        "end_col_offset": 24,
+        "end_lineno": 14,
+        "lineno": 13,
+        "name": "Burn",
+        "node_id": 12,
+        "src": "289:36:1"
+      },
+      {
+        "annotation": {
+          "ast_type": "Subscript",
+          "col_offset": 13,
+          "end_col_offset": 23,
+          "end_lineno": 16,
+          "lineno": 16,
+          "node_id": 27,
+          "slice": {
+            "ast_type": "Index",
+            "col_offset": 20,
+            "end_col_offset": 22,
+            "end_lineno": 16,
+            "lineno": 16,
+            "node_id": 30,
+            "src": "347:2:1",
+            "value": {
+              "ast_type": "Int",
+              "col_offset": 20,
+              "end_col_offset": 22,
+              "end_lineno": 16,
+              "lineno": 16,
+              "node_id": 31,
+              "src": "347:2:1",
+              "value": 64
+            }
+          },
+          "src": "340:10:1",
+          "value": {
+            "ast_type": "Name",
+            "col_offset": 13,
+            "end_col_offset": 19,
+            "end_lineno": 16,
+            "id": "String",
+            "lineno": 16,
+            "node_id": 28,
+            "src": "340:6:1"
+          }
+        },
+        "ast_type": "VariableDecl",
+        "col_offset": 0,
+        "end_col_offset": 24,
+        "end_lineno": 16,
+        "is_constant": false,
+        "is_immutable": false,
+        "is_public": true,
+        "lineno": 16,
+        "node_id": 21,
+        "src": "327:24:1",
+        "target": {
+          "ast_type": "Name",
+          "col_offset": 0,
+          "end_col_offset": 4,
+          "end_lineno": 16,
+          "id": "name",
+          "lineno": 16,
+          "node_id": 22,
+          "src": "327:4:1"
+        },
+        "value": null
+      },
+      {
+        "annotation": {
+          "ast_type": "Subscript",
+          "col_offset": 15,
+          "end_col_offset": 25,
+          "end_lineno": 17,
+          "lineno": 17,
+          "node_id": 39,
+          "slice": {
+            "ast_type": "Index",
+            "col_offset": 22,
+            "end_col_offset": 24,
+            "end_lineno": 17,
+            "lineno": 17,
+            "node_id": 42,
+            "src": "374:2:1",
+            "value": {
+              "ast_type": "Int",
+              "col_offset": 22,
+              "end_col_offset": 24,
+              "end_lineno": 17,
+              "lineno": 17,
+              "node_id": 43,
+              "src": "374:2:1",
+              "value": 32
+            }
+          },
+          "src": "367:10:1",
+          "value": {
+            "ast_type": "Name",
+            "col_offset": 15,
+            "end_col_offset": 21,
+            "end_lineno": 17,
+            "id": "String",
+            "lineno": 17,
+            "node_id": 40,
+            "src": "367:6:1"
+          }
+        },
+        "ast_type": "VariableDecl",
+        "col_offset": 0,
+        "end_col_offset": 26,
+        "end_lineno": 17,
+        "is_constant": false,
+        "is_immutable": false,
+        "is_public": true,
+        "lineno": 17,
+        "node_id": 33,
+        "src": "352:26:1",
+        "target": {
+          "ast_type": "Name",
+          "col_offset": 0,
+          "end_col_offset": 6,
+          "end_lineno": 17,
+          "id": "symbol",
+          "lineno": 17,
+          "node_id": 34,
+          "src": "352:6:1"
+        },
+        "value": null
+      },
+      {
+        "annotation": {
+          "ast_type": "Name",
+          "col_offset": 22,
+          "end_col_offset": 29,
+          "end_lineno": 18,
+          "id": "uint256",
+          "lineno": 18,
+          "node_id": 51,
+          "src": "401:7:1"
+        },
+        "ast_type": "VariableDecl",
+        "col_offset": 0,
+        "end_col_offset": 30,
+        "end_lineno": 18,
+        "is_constant": false,
+        "is_immutable": false,
+        "is_public": true,
+        "lineno": 18,
+        "node_id": 45,
+        "src": "379:30:1",
+        "target": {
+          "ast_type": "Name",
+          "col_offset": 0,
+          "end_col_offset": 13,
+          "end_lineno": 18,
+          "id": "initialSupply",
+          "lineno": 18,
+          "node_id": 46,
+          "src": "379:13:1"
+        },
+        "value": null
+      },
+      {
+        "annotation": {
+          "ast_type": "Subscript",
+          "col_offset": 17,
+          "end_col_offset": 42,
+          "end_lineno": 19,
+          "lineno": 19,
+          "node_id": 59,
+          "slice": {
+            "ast_type": "Index",
+            "col_offset": 25,
+            "end_col_offset": 41,
+            "end_lineno": 19,
+            "lineno": 19,
+            "node_id": 62,
+            "src": "435:16:1",
+            "value": {
+              "ast_type": "Tuple",
+              "col_offset": 25,
+              "elements": [
+                {
+                  "ast_type": "Name",
+                  "col_offset": 25,
+                  "end_col_offset": 32,
+                  "end_lineno": 19,
+                  "id": "address",
+                  "lineno": 19,
+                  "node_id": 64,
+                  "src": "435:7:1"
+                },
+                {
+                  "ast_type": "Name",
+                  "col_offset": 34,
+                  "end_col_offset": 41,
+                  "end_lineno": 19,
+                  "id": "uint256",
+                  "lineno": 19,
+                  "node_id": 66,
+                  "src": "444:7:1"
+                }
+              ],
+              "end_col_offset": 41,
+              "end_lineno": 19,
+              "lineno": 19,
+              "node_id": 63,
+              "src": "435:16:1"
+            }
+          },
+          "src": "427:25:1",
+          "value": {
+            "ast_type": "Name",
+            "col_offset": 17,
+            "end_col_offset": 24,
+            "end_lineno": 19,
+            "id": "HashMap",
+            "lineno": 19,
+            "node_id": 60,
+            "src": "427:7:1"
+          }
+        },
+        "ast_type": "VariableDecl",
+        "col_offset": 0,
+        "end_col_offset": 43,
+        "end_lineno": 19,
+        "is_constant": false,
+        "is_immutable": false,
+        "is_public": true,
+        "lineno": 19,
+        "node_id": 53,
+        "src": "410:43:1",
+        "target": {
+          "ast_type": "Name",
+          "col_offset": 0,
+          "end_col_offset": 8,
+          "end_lineno": 19,
+          "id": "balances",
+          "lineno": 19,
+          "node_id": 54,
+          "src": "410:8:1"
+        },
+        "value": null
+      },
+      {
+        "annotation": {
+          "ast_type": "Name",
+          "col_offset": 15,
+          "end_col_offset": 22,
+          "end_lineno": 20,
+          "id": "uint256",
+          "lineno": 20,
+          "node_id": 76,
+          "src": "469:7:1"
+        },
+        "ast_type": "VariableDecl",
+        "col_offset": 0,
+        "end_col_offset": 23,
+        "end_lineno": 20,
+        "is_constant": false,
+        "is_immutable": false,
+        "is_public": true,
+        "lineno": 20,
+        "node_id": 70,
+        "src": "454:23:1",
+        "target": {
+          "ast_type": "Name",
+          "col_offset": 0,
+          "end_col_offset": 6,
+          "end_lineno": 20,
+          "id": "supply",
+          "lineno": 20,
+          "node_id": 71,
+          "src": "454:6:1"
+        },
+        "value": null
+      },
+      {
+        "args": {
+          "args": [
+            {
+              "annotation": {
+                "ast_type": "Subscript",
+                "col_offset": 19,
+                "end_col_offset": 29,
+                "end_lineno": 23,
+                "lineno": 23,
+                "node_id": 81,
+                "slice": {
+                  "ast_type": "Index",
+                  "col_offset": 26,
+                  "end_col_offset": 28,
+                  "end_lineno": 23,
+                  "lineno": 23,
+                  "node_id": 84,
+                  "src": "515:2:1",
+                  "value": {
+                    "ast_type": "Int",
+                    "col_offset": 26,
+                    "end_col_offset": 28,
+                    "end_lineno": 23,
+                    "lineno": 23,
+                    "node_id": 85,
+                    "src": "515:2:1",
+                    "value": 64
+                  }
+                },
+                "src": "508:10:1",
+                "value": {
+                  "ast_type": "Name",
+                  "col_offset": 19,
+                  "end_col_offset": 25,
+                  "end_lineno": 23,
+                  "id": "String",
+                  "lineno": 23,
+                  "node_id": 82,
+                  "src": "508:6:1"
+                }
+              },
+              "arg": "name",
+              "ast_type": "arg",
+              "col_offset": 13,
+              "end_col_offset": 29,
+              "end_lineno": 23,
+              "lineno": 23,
+              "node_id": 80,
+              "src": "502:16:1"
+            },
+            {
+              "annotation": {
+                "ast_type": "Subscript",
+                "col_offset": 39,
+                "end_col_offset": 49,
+                "end_lineno": 23,
+                "lineno": 23,
+                "node_id": 88,
+                "slice": {
+                  "ast_type": "Index",
+                  "col_offset": 46,
+                  "end_col_offset": 48,
+                  "end_lineno": 23,
+                  "lineno": 23,
+                  "node_id": 91,
+                  "src": "535:2:1",
+                  "value": {
+                    "ast_type": "Int",
+                    "col_offset": 46,
+                    "end_col_offset": 48,
+                    "end_lineno": 23,
+                    "lineno": 23,
+                    "node_id": 92,
+                    "src": "535:2:1",
+                    "value": 32
+                  }
+                },
+                "src": "528:10:1",
+                "value": {
+                  "ast_type": "Name",
+                  "col_offset": 39,
+                  "end_col_offset": 45,
+                  "end_lineno": 23,
+                  "id": "String",
+                  "lineno": 23,
+                  "node_id": 89,
+                  "src": "528:6:1"
+                }
+              },
+              "arg": "symbol",
+              "ast_type": "arg",
+              "col_offset": 31,
+              "end_col_offset": 49,
+              "end_lineno": 23,
+              "lineno": 23,
+              "node_id": 87,
+              "src": "520:18:1"
+            },
+            {
+              "annotation": {
+                "ast_type": "Name",
+                "col_offset": 66,
+                "end_col_offset": 73,
+                "end_lineno": 23,
+                "id": "uint256",
+                "lineno": 23,
+                "node_id": 95,
+                "src": "555:7:1"
+              },
+              "arg": "initialSupply",
+              "ast_type": "arg",
+              "col_offset": 51,
+              "end_col_offset": 73,
+              "end_lineno": 23,
+              "lineno": 23,
+              "node_id": 94,
+              "src": "540:22:1"
+            }
+          ],
+          "ast_type": "arguments",
+          "col_offset": 13,
+          "default": null,
+          "defaults": [],
+          "end_col_offset": 73,
+          "end_lineno": 23,
+          "lineno": 23,
+          "node_id": 79,
+          "src": "502:60:1"
+        },
+        "ast_type": "FunctionDef",
+        "body": [
+          {
+            "ast_type": "Assign",
+            "col_offset": 4,
+            "end_col_offset": 20,
+            "end_lineno": 30,
+            "lineno": 30,
+            "node_id": 99,
+            "src": "758:16:1",
+            "target": {
+              "ast_type": "Attribute",
+              "attr": "name",
+              "col_offset": 4,
+              "end_col_offset": 13,
+              "end_lineno": 30,
+              "lineno": 30,
+              "node_id": 100,
+              "src": "758:9:1",
+              "value": {
+                "ast_type": "Name",
+                "col_offset": 4,
+                "end_col_offset": 8,
+                "end_lineno": 30,
+                "id": "self",
+                "lineno": 30,
+                "node_id": 101,
+                "src": "758:4:1"
+              }
+            },
+            "value": {
+              "ast_type": "Name",
+              "col_offset": 16,
+              "end_col_offset": 20,
+              "end_lineno": 30,
+              "id": "name",
+              "lineno": 30,
+              "node_id": 104,
+              "src": "770:4:1"
+            }
+          },
+          {
+            "ast_type": "Assign",
+            "col_offset": 4,
+            "end_col_offset": 24,
+            "end_lineno": 31,
+            "lineno": 31,
+            "node_id": 106,
+            "src": "779:20:1",
+            "target": {
+              "ast_type": "Attribute",
+              "attr": "symbol",
+              "col_offset": 4,
+              "end_col_offset": 15,
+              "end_lineno": 31,
+              "lineno": 31,
+              "node_id": 107,
+              "src": "779:11:1",
+              "value": {
+                "ast_type": "Name",
+                "col_offset": 4,
+                "end_col_offset": 8,
+                "end_lineno": 31,
+                "id": "self",
+                "lineno": 31,
+                "node_id": 108,
+                "src": "779:4:1"
+              }
+            },
+            "value": {
+              "ast_type": "Name",
+              "col_offset": 18,
+              "end_col_offset": 24,
+              "end_lineno": 31,
+              "id": "symbol",
+              "lineno": 31,
+              "node_id": 111,
+              "src": "793:6:1"
+            }
+          },
+          {
+            "ast_type": "Assign",
+            "col_offset": 4,
+            "end_col_offset": 31,
+            "end_lineno": 32,
+            "lineno": 32,
+            "node_id": 113,
+            "src": "804:27:1",
+            "target": {
+              "ast_type": "Attribute",
+              "attr": "supply",
+              "col_offset": 4,
+              "end_col_offset": 15,
+              "end_lineno": 32,
+              "lineno": 32,
+              "node_id": 114,
+              "src": "804:11:1",
+              "value": {
+                "ast_type": "Name",
+                "col_offset": 4,
+                "end_col_offset": 8,
+                "end_lineno": 32,
+                "id": "self",
+                "lineno": 32,
+                "node_id": 115,
+                "src": "804:4:1"
+              }
+            },
+            "value": {
+              "ast_type": "Name",
+              "col_offset": 18,
+              "end_col_offset": 31,
+              "end_lineno": 32,
+              "id": "initialSupply",
+              "lineno": 32,
+              "node_id": 118,
+              "src": "818:13:1"
+            }
+          }
+        ],
+        "col_offset": 0,
+        "decorator_list": [
+          {
+            "ast_type": "Name",
+            "col_offset": 1,
+            "end_col_offset": 9,
+            "end_lineno": 22,
+            "id": "external",
+            "lineno": 22,
+            "node_id": 120,
+            "src": "480:8:1"
+          }
+        ],
+        "doc_string": {
+          "ast_type": "DocStr",
+          "col_offset": 4,
+          "end_col_offset": 7,
+          "end_lineno": 29,
+          "lineno": 24,
+          "node_id": 122,
+          "src": "569:184:1",
+          "value": "\n    @notice Initialize the contract\n    @param name The name of the token\n    @param symbol The symbol of the token\n    @param initialSupply The initial supply of the token\n    "
+        },
+        "end_col_offset": 31,
+        "end_lineno": 32,
+        "lineno": 23,
+        "name": "__init__",
+        "node_id": 78,
+        "pos": null,
+        "returns": null,
+        "src": "489:342:1"
+      },
+      {
+        "args": {
+          "args": [
+            {
+              "annotation": {
+                "ast_type": "Name",
+                "col_offset": 16,
+                "end_col_offset": 23,
+                "end_lineno": 38,
+                "id": "address",
+                "lineno": 38,
+                "node_id": 126,
+                "src": "870:7:1"
+              },
+              "arg": "to",
+              "ast_type": "arg",
+              "col_offset": 12,
+              "end_col_offset": 23,
+              "end_lineno": 38,
+              "lineno": 38,
+              "node_id": 125,
+              "src": "866:11:1"
+            }
+          ],
+          "ast_type": "arguments",
+          "col_offset": 12,
+          "default": null,
+          "defaults": [],
+          "end_col_offset": 23,
+          "end_lineno": 38,
+          "lineno": 38,
+          "node_id": 124,
+          "src": "866:11:1"
+        },
+        "ast_type": "FunctionDef",
+        "body": [
+          {
+            "ast_type": "AugAssign",
+            "col_offset": 4,
+            "end_col_offset": 20,
+            "end_lineno": 43,
+            "lineno": 43,
+            "node_id": 130,
+            "op": {
+              "ast_type": "Add",
+              "col_offset": 4,
+              "end_col_offset": 20,
+              "end_lineno": 43,
+              "lineno": 43,
+              "node_id": 147,
+              "src": "981:16:1"
+            },
+            "src": "981:16:1",
+            "target": {
+              "ast_type": "Attribute",
+              "attr": "supply",
+              "col_offset": 4,
+              "end_col_offset": 15,
+              "end_lineno": 43,
+              "lineno": 43,
+              "node_id": 131,
+              "src": "981:11:1",
+              "value": {
+                "ast_type": "Name",
+                "col_offset": 4,
+                "end_col_offset": 8,
+                "end_lineno": 43,
+                "id": "self",
+                "lineno": 43,
+                "node_id": 132,
+                "src": "981:4:1"
+              }
+            },
+            "value": {
+              "ast_type": "Int",
+              "col_offset": 19,
+              "end_col_offset": 20,
+              "end_lineno": 43,
+              "lineno": 43,
+              "node_id": 136,
+              "src": "996:1:1",
+              "value": 1
+            }
+          },
+          {
+            "ast_type": "AugAssign",
+            "col_offset": 4,
+            "end_col_offset": 26,
+            "end_lineno": 44,
+            "lineno": 44,
+            "node_id": 137,
+            "op": {
+              "ast_type": "Add",
+              "col_offset": 4,
+              "end_col_offset": 26,
+              "end_lineno": 44,
+              "lineno": 44,
+              "node_id": 147,
+              "src": "1002:22:1"
+            },
+            "src": "1002:22:1",
+            "target": {
+              "ast_type": "Subscript",
+              "col_offset": 4,
+              "end_col_offset": 21,
+              "end_lineno": 44,
+              "lineno": 44,
+              "node_id": 138,
+              "slice": {
+                "ast_type": "Index",
+                "col_offset": 18,
+                "end_col_offset": 20,
+                "end_lineno": 44,
+                "lineno": 44,
+                "node_id": 143,
+                "src": "1016:2:1",
+                "value": {
+                  "ast_type": "Name",
+                  "col_offset": 18,
+                  "end_col_offset": 20,
+                  "end_lineno": 44,
+                  "id": "to",
+                  "lineno": 44,
+                  "node_id": 144,
+                  "src": "1016:2:1"
+                }
+              },
+              "src": "1002:17:1",
+              "value": {
+                "ast_type": "Attribute",
+                "attr": "balances",
+                "col_offset": 4,
+                "end_col_offset": 17,
+                "end_lineno": 44,
+                "lineno": 44,
+                "node_id": 139,
+                "src": "1002:13:1",
+                "value": {
+                  "ast_type": "Name",
+                  "col_offset": 4,
+                  "end_col_offset": 8,
+                  "end_lineno": 44,
+                  "id": "self",
+                  "lineno": 44,
+                  "node_id": 140,
+                  "src": "1002:4:1"
+                }
+              }
+            },
+            "value": {
+              "ast_type": "Int",
+              "col_offset": 25,
+              "end_col_offset": 26,
+              "end_lineno": 44,
+              "lineno": 44,
+              "node_id": 148,
+              "src": "1023:1:1",
+              "value": 1
+            }
+          },
+          {
+            "ast_type": "Log",
+            "col_offset": 4,
+            "end_col_offset": 16,
+            "end_lineno": 45,
+            "lineno": 45,
+            "node_id": 150,
+            "src": "1029:12:1",
+            "value": {
+              "args": [
+                {
+                  "ast_type": "Name",
+                  "col_offset": 15,
+                  "end_col_offset": 16,
+                  "end_lineno": 45,
+                  "id": "to",
+                  "lineno": 45,
+                  "node_id": 154,
+                  "src": "1040:1:1"
+                }
+              ],
+              "ast_type": "Call",
+              "col_offset": 8,
+              "end_col_offset": 16,
+              "end_lineno": 45,
+              "func": {
+                "ast_type": "Name",
+                "col_offset": 8,
+                "end_col_offset": 12,
+                "end_lineno": 45,
+                "id": "Mint",
+                "lineno": 45,
+                "node_id": 152,
+                "src": "1033:4:1"
+              },
+              "keyword": null,
+              "keywords": [],
+              "lineno": 45,
+              "node_id": 151,
+              "src": "1033:8:1"
+            }
+          }
+        ],
+        "col_offset": 0,
+        "decorator_list": [
+          {
+            "ast_type": "Name",
+            "col_offset": 1,
+            "end_col_offset": 8,
+            "end_lineno": 36,
+            "id": "payable",
+            "lineno": 36,
+            "node_id": 156,
+            "src": "836:7:1"
+          },
+          {
+            "ast_type": "Name",
+            "col_offset": 1,
+            "end_col_offset": 9,
+            "end_lineno": 37,
+            "id": "external",
+            "lineno": 37,
+            "node_id": 158,
+            "src": "845:8:1"
+          }
+        ],
+        "doc_string": {
+          "ast_type": "DocStr",
+          "col_offset": 4,
+          "end_col_offset": 7,
+          "end_lineno": 42,
+          "lineno": 39,
+          "node_id": 160,
+          "src": "884:92:1",
+          "value": "\n    @notice Mint a new mocked NFT\n    @param to The address to mint the token to\n    "
+        },
+        "end_col_offset": 16,
+        "end_lineno": 45,
+        "lineno": 38,
+        "name": "mintNFT",
+        "node_id": 123,
+        "pos": null,
+        "returns": null,
+        "src": "854:187:1"
+      },
+      {
+        "args": {
+          "args": [
+            {
+              "annotation": {
+                "ast_type": "Name",
+                "col_offset": 23,
+                "end_col_offset": 30,
+                "end_lineno": 48,
+                "id": "address",
+                "lineno": 48,
+                "node_id": 164,
+                "src": "1076:7:1"
+              },
+              "arg": "cardOwner",
+              "ast_type": "arg",
+              "col_offset": 12,
+              "end_col_offset": 30,
+              "end_lineno": 48,
+              "lineno": 48,
+              "node_id": 163,
+              "src": "1065:18:1"
+            }
+          ],
+          "ast_type": "arguments",
+          "col_offset": 12,
+          "default": null,
+          "defaults": [],
+          "end_col_offset": 30,
+          "end_lineno": 48,
+          "lineno": 48,
+          "node_id": 162,
+          "src": "1065:18:1"
+        },
+        "ast_type": "FunctionDef",
+        "body": [
+          {
+            "ast_type": "AugAssign",
+            "col_offset": 4,
+            "end_col_offset": 20,
+            "end_lineno": 53,
+            "lineno": 53,
+            "node_id": 168,
+            "op": {
+              "ast_type": "Sub",
+              "col_offset": 4,
+              "end_col_offset": 20,
+              "end_lineno": 53,
+              "lineno": 53,
+              "node_id": 185,
+              "src": "1192:16:1"
+            },
+            "src": "1192:16:1",
+            "target": {
+              "ast_type": "Attribute",
+              "attr": "supply",
+              "col_offset": 4,
+              "end_col_offset": 15,
+              "end_lineno": 53,
+              "lineno": 53,
+              "node_id": 169,
+              "src": "1192:11:1",
+              "value": {
+                "ast_type": "Name",
+                "col_offset": 4,
+                "end_col_offset": 8,
+                "end_lineno": 53,
+                "id": "self",
+                "lineno": 53,
+                "node_id": 170,
+                "src": "1192:4:1"
+              }
+            },
+            "value": {
+              "ast_type": "Int",
+              "col_offset": 19,
+              "end_col_offset": 20,
+              "end_lineno": 53,
+              "lineno": 53,
+              "node_id": 174,
+              "src": "1207:1:1",
+              "value": 1
+            }
+          },
+          {
+            "ast_type": "AugAssign",
+            "col_offset": 4,
+            "end_col_offset": 33,
+            "end_lineno": 54,
+            "lineno": 54,
+            "node_id": 175,
+            "op": {
+              "ast_type": "Sub",
+              "col_offset": 4,
+              "end_col_offset": 33,
+              "end_lineno": 54,
+              "lineno": 54,
+              "node_id": 185,
+              "src": "1213:29:1"
+            },
+            "src": "1213:29:1",
+            "target": {
+              "ast_type": "Subscript",
+              "col_offset": 4,
+              "end_col_offset": 28,
+              "end_lineno": 54,
+              "lineno": 54,
+              "node_id": 176,
+              "slice": {
+                "ast_type": "Index",
+                "col_offset": 18,
+                "end_col_offset": 27,
+                "end_lineno": 54,
+                "lineno": 54,
+                "node_id": 181,
+                "src": "1227:9:1",
+                "value": {
+                  "ast_type": "Name",
+                  "col_offset": 18,
+                  "end_col_offset": 27,
+                  "end_lineno": 54,
+                  "id": "cardOwner",
+                  "lineno": 54,
+                  "node_id": 182,
+                  "src": "1227:9:1"
+                }
+              },
+              "src": "1213:24:1",
+              "value": {
+                "ast_type": "Attribute",
+                "attr": "balances",
+                "col_offset": 4,
+                "end_col_offset": 17,
+                "end_lineno": 54,
+                "lineno": 54,
+                "node_id": 177,
+                "src": "1213:13:1",
+                "value": {
+                  "ast_type": "Name",
+                  "col_offset": 4,
+                  "end_col_offset": 8,
+                  "end_lineno": 54,
+                  "id": "self",
+                  "lineno": 54,
+                  "node_id": 178,
+                  "src": "1213:4:1"
+                }
+              }
+            },
+            "value": {
+              "ast_type": "Int",
+              "col_offset": 32,
+              "end_col_offset": 33,
+              "end_lineno": 54,
+              "lineno": 54,
+              "node_id": 186,
+              "src": "1241:1:1",
+              "value": 1
+            }
+          },
+          {
+            "ast_type": "Log",
+            "col_offset": 4,
+            "end_col_offset": 23,
+            "end_lineno": 55,
+            "lineno": 55,
+            "node_id": 188,
+            "src": "1247:19:1",
+            "value": {
+              "args": [
+                {
+                  "ast_type": "Name",
+                  "col_offset": 13,
+                  "end_col_offset": 22,
+                  "end_lineno": 55,
+                  "id": "cardOwner",
+                  "lineno": 55,
+                  "node_id": 192,
+                  "src": "1256:9:1"
+                }
+              ],
+              "ast_type": "Call",
+              "col_offset": 8,
+              "end_col_offset": 23,
+              "end_lineno": 55,
+              "func": {
+                "ast_type": "Name",
+                "col_offset": 8,
+                "end_col_offset": 12,
+                "end_lineno": 55,
+                "id": "Burn",
+                "lineno": 55,
+                "node_id": 190,
+                "src": "1251:4:1"
+              },
+              "keyword": null,
+              "keywords": [],
+              "lineno": 55,
+              "node_id": 189,
+              "src": "1251:15:1"
+            }
+          }
+        ],
+        "col_offset": 0,
+        "decorator_list": [
+          {
+            "ast_type": "Name",
+            "col_offset": 1,
+            "end_col_offset": 9,
+            "end_lineno": 47,
+            "id": "external",
+            "lineno": 47,
+            "node_id": 194,
+            "src": "1044:8:1"
+          }
+        ],
+        "doc_string": {
+          "ast_type": "DocStr",
+          "col_offset": 4,
+          "end_col_offset": 7,
+          "end_lineno": 52,
+          "lineno": 49,
+          "node_id": 196,
+          "src": "1090:97:1",
+          "value": "\n    @notice Burn a mocked NFT\n    @param cardOwner The address to burn the token from\n    "
+        },
+        "end_col_offset": 23,
+        "end_lineno": 55,
+        "lineno": 48,
+        "name": "burnNFT",
+        "node_id": 161,
+        "pos": null,
+        "returns": null,
+        "src": "1053:213:1"
+      },
+      {
+        "args": {
+          "args": [
+            {
+              "annotation": {
+                "ast_type": "Name",
+                "col_offset": 22,
+                "end_col_offset": 29,
+                "end_lineno": 58,
+                "id": "address",
+                "lineno": 58,
+                "node_id": 200,
+                "src": "1304:7:1"
+              },
+              "arg": "legend",
+              "ast_type": "arg",
+              "col_offset": 14,
+              "end_col_offset": 29,
+              "end_lineno": 58,
+              "lineno": 58,
+              "node_id": 199,
+              "src": "1296:15:1"
+            }
+          ],
+          "ast_type": "arguments",
+          "col_offset": 14,
+          "default": null,
+          "defaults": [],
+          "end_col_offset": 29,
+          "end_lineno": 58,
+          "lineno": 58,
+          "node_id": 198,
+          "src": "1296:15:1"
+        },
+        "ast_type": "FunctionDef",
+        "body": [
+          {
+            "ast_type": "Return",
+            "col_offset": 4,
+            "end_col_offset": 32,
+            "end_lineno": 63,
+            "lineno": 63,
+            "node_id": 204,
+            "src": "1441:28:1",
+            "value": {
+              "ast_type": "Subscript",
+              "col_offset": 11,
+              "end_col_offset": 32,
+              "end_lineno": 63,
+              "lineno": 63,
+              "node_id": 205,
+              "slice": {
+                "ast_type": "Index",
+                "col_offset": 25,
+                "end_col_offset": 31,
+                "end_lineno": 63,
+                "lineno": 63,
+                "node_id": 210,
+                "src": "1462:6:1",
+                "value": {
+                  "ast_type": "Name",
+                  "col_offset": 25,
+                  "end_col_offset": 31,
+                  "end_lineno": 63,
+                  "id": "legend",
+                  "lineno": 63,
+                  "node_id": 211,
+                  "src": "1462:6:1"
+                }
+              },
+              "src": "1448:21:1",
+              "value": {
+                "ast_type": "Attribute",
+                "attr": "balances",
+                "col_offset": 11,
+                "end_col_offset": 24,
+                "end_lineno": 63,
+                "lineno": 63,
+                "node_id": 206,
+                "src": "1448:13:1",
+                "value": {
+                  "ast_type": "Name",
+                  "col_offset": 11,
+                  "end_col_offset": 15,
+                  "end_lineno": 63,
+                  "id": "self",
+                  "lineno": 63,
+                  "node_id": 207,
+                  "src": "1448:4:1"
+                }
+              }
+            }
+          }
+        ],
+        "col_offset": 0,
+        "decorator_list": [
+          {
+            "ast_type": "Name",
+            "col_offset": 1,
+            "end_col_offset": 9,
+            "end_lineno": 57,
+            "id": "external",
+            "lineno": 57,
+            "node_id": 214,
+            "src": "1273:8:1"
+          }
+        ],
+        "doc_string": {
+          "ast_type": "DocStr",
+          "col_offset": 4,
+          "end_col_offset": 7,
+          "end_lineno": 62,
+          "lineno": 59,
+          "node_id": 218,
+          "src": "1329:107:1",
+          "value": "\n    @notice Get the balance of a mocked NFT\n    @param legend The address to get the balance of\n    "
+        },
+        "end_col_offset": 32,
+        "end_lineno": 63,
+        "lineno": 58,
+        "name": "balanceOf",
+        "node_id": 197,
+        "pos": null,
+        "returns": {
+          "ast_type": "Name",
+          "col_offset": 34,
+          "end_col_offset": 41,
+          "end_lineno": 58,
+          "id": "uint256",
+          "lineno": 58,
+          "node_id": 216,
+          "src": "1316:7:1"
+        },
+        "src": "1282:187:1"
+      }
+    ],
+    "col_offset": 0,
+    "doc_string": {
+      "ast_type": "DocStr",
+      "col_offset": 0,
+      "end_col_offset": 3,
+      "end_lineno": 8,
+      "lineno": 2,
+      "node_id": 219,
+      "src": "18:231:1",
+      "value": "\n@title Mock Saturn Series ERC721 Token\n@dev This contract replicates the functionality of the ERC721 standard, but\n     with a few differences. It is intended to be used for testing purposes\n     only.\n@author 0xcassini.eth\n"
+    },
+    "end_col_offset": 32,
+    "end_lineno": 63,
+    "lineno": 1,
+    "name": "contracts/nft_mocked_contract.vy",
+    "node_id": 0,
+    "src": "0:1469:1"
+  },
+  "bytecode": "0x60206103be60003960005160406020826103be01600039600051116103b9576020816103be01600039600051806040526020820181816103be0160603950505060206103de60003960005160206020826103be01600039600051116103b9576020816103be016000396000518060a052602082016020816103be0160003960005160c052505050346103b95760405180600055600081601f0160051c600281116103b95780156100c357905b8060051b6060015181600101556001018181186100ab575b50505060a0518060035560c0516004555060206103fe6000396000516007556102c46100f4610000396102c4610000f36003361161000c576102ac565b60003560e01c6354ba0f27811861009357602436106102b2576004358060a01c6102b257604052600754600181018181106102b2579050600755600660405160205260005260406000208054600181018181106102b25790508155506040517f3c3284d117c92d0b1699230960384e794dcba184cc48ff114fe4fed20c9b056560006060a2005b346102b25763f83efec8811861011957602436106102b2576004358060a01c6102b257604052600754600181038181116102b2579050600755600660405160205260005260406000208054600181038181116102b25790508155506040517fe22de1457cb61fb61b60176bc4235a9abd19466126b46692bc14fc573f09924960006060a2005b6370a08231811861015457602436106102b2576004358060a01c6102b257604052600660405160205260005260406000205460605260206060f35b6306fdde0381186101d957600436106102b2576020806040528060400160005480825260208201600082601f0160051c600281116102b25780156101ab57905b80600101548160051b840152600101818118610194575b505050508051806020830101601f82600003163682375050601f19601f825160200101169050810190506040f35b6395d89b41811861023157600436106102b2576020806040528060400160035480825260208201600454815250508051806020830101601f82600003163682375050601f19601f825160200101169050810190506040f35b63378dc3dc811861025057600436106102b25760055460405260206040f35b6327e235e3811861028b57602436106102b2576004358060a01c6102b257604052600660405160205260005260406000205460605260206060f35b63047fc9aa81186102aa57600436106102b25760075460405260206040f35b505b60006000fd5b600080fda165767970657283000307000b005b600080fd",
+  "bytecodeSha1": "4dc4a4a0038ea6a953d289d092dc467c97fcad1c",
+  "compiler": {
+    "evm_version": "istanbul",
+    "version": "0.3.7"
+  },
+  "contractName": "nft_mocked_contract",
+  "coverageMap": {
+    "branches": {
+      "0": {}
+    },
+    "statements": {
+      "0": {
+        "nft_mocked_contract.balanceOf": {
+          "6": [
+            1441,
+            1469
+          ]
+        },
+        "nft_mocked_contract.burnNFT": {
+          "3": [
+            1192,
+            1208
+          ],
+          "4": [
+            1213,
+            1242
+          ],
+          "5": [
+            1247,
+            1266
+          ]
+        },
+        "nft_mocked_contract.mintNFT": {
+          "0": [
+            981,
+            997
+          ],
+          "1": [
+            1002,
+            1024
+          ],
+          "2": [
+            1029,
+            1041
+          ]
+        }
+      }
+    }
+  },
+  "dependencies": [],
+  "deployedBytecode": "0x6003361161000c576102ac565b60003560e01c6354ba0f27811861009357602436106102b2576004358060a01c6102b257604052600754600181018181106102b2579050600755600660405160205260005260406000208054600181018181106102b25790508155506040517f3c3284d117c92d0b1699230960384e794dcba184cc48ff114fe4fed20c9b056560006060a2005b346102b25763f83efec8811861011957602436106102b2576004358060a01c6102b257604052600754600181038181116102b2579050600755600660405160205260005260406000208054600181038181116102b25790508155506040517fe22de1457cb61fb61b60176bc4235a9abd19466126b46692bc14fc573f09924960006060a2005b6370a08231811861015457602436106102b2576004358060a01c6102b257604052600660405160205260005260406000205460605260206060f35b6306fdde0381186101d957600436106102b2576020806040528060400160005480825260208201600082601f0160051c600281116102b25780156101ab57905b80600101548160051b840152600101818118610194575b505050508051806020830101601f82600003163682375050601f19601f825160200101169050810190506040f35b6395d89b41811861023157600436106102b2576020806040528060400160035480825260208201600454815250508051806020830101601f82600003163682375050601f19601f825160200101169050810190506040f35b63378dc3dc811861025057600436106102b25760055460405260206040f35b6327e235e3811861028b57602436106102b2576004358060a01c6102b257604052600660405160205260005260406000205460605260206060f35b63047fc9aa81186102aa57600436106102b25760075460405260206040f35b505b60006000fd5b600080fda165767970657283000307000b",
+  "deployedSourceMap": "-1:-1:1:-;;;;:::-;;:::-;:::-;;;;;;;;;:::-;;;;;:::-;;;;;;;:::-;866:11;;981;-1:-1;996:1;-1:-1;;;;;;:::-;981:16;;:11;-1:-1;1002:13;1016:2;-1:-1;1002:17;;;;;;;-1:-1;;1023:1;-1:-1;;;;;;:::-;1002:22;;-1:-1;;1002:22;1040:1;1029:12;;;;;-1:-1;:::-;;;:::-;;;;;:::-;;;;;:::-;;;;;;;:::-;1065:18;;1192:11;-1:-1;1207:1;-1:-1;;;;;;:::-;1192:16;;:11;-1:-1;1213:13;1227:9;-1:-1;1213:24;;;;;;;-1:-1;;1241:1;-1:-1;;;;;;:::-;1213:29;;-1:-1;;1213:29;1256:9;1247:19;;;;;-1:-1;:::-;;;;;:::-;;;;;:::-;;;;;;;:::-;1296:15;;1448:13;1462:6;-1:-1;1448:21;;;;;;;-1:-1;;;;;;:::-;;;;;:::-;;;;;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;:::-;;;;:::-;;:::-;;;;;;;;;;;;;;;;;:::-;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::-;;;;;:::-;;;;;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::-;;;;;:::-;;;;;:::-;;;;;;;;:::-;;;;;:::-;;;;;:::-;;;;;;;:::-;;;;;;;;;;;;;;;;;;;:::-;;;;;:::-;;;;;:::-;;;;;;;;:::-;;:::-;;;;:::-;;;",
+  "language": "Vyper",
+  "natspec": {
+    "author": "0xcassini.eth",
+    "details": "This contract replicates the functionality of the ERC721 standard, but with a few differences. It is intended to be used for testing purposes only.",
+    "methods": {
+      "__init__(string,string,uint256)": {
+        "notice": "Initialize the contract",
+        "params": {
+          "initialSupply": "The initial supply of the token",
+          "name": "The name of the token",
+          "symbol": "The symbol of the token"
+        }
+      },
+      "balanceOf(address)": {
+        "notice": "Get the balance of a mocked NFT",
+        "params": {
+          "legend": "The address to get the balance of"
+        }
+      },
+      "burnNFT(address)": {
+        "notice": "Burn a mocked NFT",
+        "params": {
+          "cardOwner": "The address to burn the token from"
+        }
+      },
+      "mintNFT(address)": {
+        "notice": "Mint a new mocked NFT",
+        "params": {
+          "to": "The address to mint the token to"
+        }
+      }
+    },
+    "title": "Mock Saturn Series ERC721 Token"
+  },
+  "offset": [
+    0,
+    1471
+  ],
+  "opcodes": "PUSH1 0x3 CALLDATASIZE GT PUSH2 0x0C JUMPI PUSH2 0x2AC JUMP JUMPDEST PUSH1 0x0 CALLDATALOAD PUSH1 0xE0 SHR PUSH4 0x54BAF27 DUP2 XOR PUSH2 0x093 JUMPI PUSH1 0x24 CALLDATASIZE LT PUSH2 0x2B2 JUMPI PUSH1 0x4 CALLDATALOAD DUP1 PUSH1 0xA0 SHR PUSH2 0x2B2 JUMPI PUSH1 0x40 MSTORE PUSH1 0x7 SLOAD PUSH1 0x1 DUP2 ADD DUP2 DUP2 LT PUSH2 0x2B2 JUMPI SWAP1 POP PUSH1 0x7 SSTORE PUSH1 0x6 PUSH1 0x40 MLOAD PUSH1 0x20 MSTORE PUSH1 0x0 MSTORE PUSH1 0x40 PUSH1 0x0 SHA3 DUP1 SLOAD PUSH1 0x1 DUP2 ADD DUP2 DUP2 LT PUSH2 0x2B2 JUMPI SWAP1 POP DUP2 SSTORE POP PUSH1 0x40 MLOAD PUSH32 0x3C3284D117C92DB169923960384E794DCBA184CC48FF114FE4FED2C9B565 PUSH1 0x0 PUSH1 0x60 LOG2 STOP JUMPDEST CALLVALUE PUSH2 0x2B2 JUMPI PUSH4 0xF83EFEC8 DUP2 XOR PUSH2 0x119 JUMPI PUSH1 0x24 CALLDATASIZE LT PUSH2 0x2B2 JUMPI PUSH1 0x4 CALLDATALOAD DUP1 PUSH1 0xA0 SHR PUSH2 0x2B2 JUMPI PUSH1 0x40 MSTORE PUSH1 0x7 SLOAD PUSH1 0x1 DUP2 SUB DUP2 DUP2 GT PUSH2 0x2B2 JUMPI SWAP1 POP PUSH1 0x7 SSTORE PUSH1 0x6 PUSH1 0x40 MLOAD PUSH1 0x20 MSTORE PUSH1 0x0 MSTORE PUSH1 0x40 PUSH1 0x0 SHA3 DUP1 SLOAD PUSH1 0x1 DUP2 SUB DUP2 DUP2 GT PUSH2 0x2B2 JUMPI SWAP1 POP DUP2 SSTORE POP PUSH1 0x40 MLOAD PUSH32 0xE22DE1457CB61FB61B60176BC4235A9ABD19466126B46692BC14FC573F99249 PUSH1 0x0 PUSH1 0x60 LOG2 STOP JUMPDEST PUSH4 0x70A08231 DUP2 XOR PUSH2 0x154 JUMPI PUSH1 0x24 CALLDATASIZE LT PUSH2 0x2B2 JUMPI PUSH1 0x4 CALLDATALOAD DUP1 PUSH1 0xA0 SHR PUSH2 0x2B2 JUMPI PUSH1 0x40 MSTORE PUSH1 0x6 PUSH1 0x40 MLOAD PUSH1 0x20 MSTORE PUSH1 0x0 MSTORE PUSH1 0x40 PUSH1 0x0 SHA3 SLOAD PUSH1 0x60 MSTORE PUSH1 0x20 PUSH1 0x60 RETURN JUMPDEST PUSH4 0x6FDDE3 DUP2 XOR PUSH2 0x1D9 JUMPI PUSH1 0x4 CALLDATASIZE LT PUSH2 0x2B2 JUMPI PUSH1 0x20 DUP1 PUSH1 0x40 MSTORE DUP1 PUSH1 0x40 ADD PUSH1 0x0 SLOAD DUP1 DUP3 MSTORE PUSH1 0x20 DUP3 ADD PUSH1 0x0 DUP3 PUSH1 0x1F ADD PUSH1 0x5 SHR PUSH1 0x2 DUP2 GT PUSH2 0x2B2 JUMPI DUP1 ISZERO PUSH2 0x1AB JUMPI SWAP1 JUMPDEST DUP1 PUSH1 0x1 ADD SLOAD DUP2 PUSH1 0x5 SHL DUP5 ADD MSTORE PUSH1 0x1 ADD DUP2 DUP2 XOR PUSH2 0x194 JUMPI JUMPDEST POP POP POP POP DUP1 MLOAD DUP1 PUSH1 0x20 DUP4 ADD ADD PUSH1 0x1F DUP3 PUSH1 0x0 SUB AND CALLDATASIZE DUP3 CALLDATACOPY POP POP PUSH1 0x1F NOT PUSH1 0x1F DUP3 MLOAD PUSH1 0x20 ADD ADD AND SWAP1 POP DUP2 ADD SWAP1 POP PUSH1 0x40 RETURN JUMPDEST PUSH4 0x95D89B41 DUP2 XOR PUSH2 0x231 JUMPI PUSH1 0x4 CALLDATASIZE LT PUSH2 0x2B2 JUMPI PUSH1 0x20 DUP1 PUSH1 0x40 MSTORE DUP1 PUSH1 0x40 ADD PUSH1 0x3 SLOAD DUP1 DUP3 MSTORE PUSH1 0x20 DUP3 ADD PUSH1 0x4 SLOAD DUP2 MSTORE POP POP DUP1 MLOAD DUP1 PUSH1 0x20 DUP4 ADD ADD PUSH1 0x1F DUP3 PUSH1 0x0 SUB AND CALLDATASIZE DUP3 CALLDATACOPY POP POP PUSH1 0x1F NOT PUSH1 0x1F DUP3 MLOAD PUSH1 0x20 ADD ADD AND SWAP1 POP DUP2 ADD SWAP1 POP PUSH1 0x40 RETURN JUMPDEST PUSH4 0x378DC3DC DUP2 XOR PUSH2 0x250 JUMPI PUSH1 0x4 CALLDATASIZE LT PUSH2 0x2B2 JUMPI PUSH1 0x5 SLOAD PUSH1 0x40 MSTORE PUSH1 0x20 PUSH1 0x40 RETURN JUMPDEST PUSH4 0x27E235E3 DUP2 XOR PUSH2 0x28B JUMPI PUSH1 0x24 CALLDATASIZE LT PUSH2 0x2B2 JUMPI PUSH1 0x4 CALLDATALOAD DUP1 PUSH1 0xA0 SHR PUSH2 0x2B2 JUMPI PUSH1 0x40 MSTORE PUSH1 0x6 PUSH1 0x40 MLOAD PUSH1 0x20 MSTORE PUSH1 0x0 MSTORE PUSH1 0x40 PUSH1 0x0 SHA3 SLOAD PUSH1 0x60 MSTORE PUSH1 0x20 PUSH1 0x60 RETURN JUMPDEST PUSH4 0x47FC9AA DUP2 XOR PUSH2 0x2AA JUMPI PUSH1 0x4 CALLDATASIZE LT PUSH2 0x2B2 JUMPI PUSH1 0x7 SLOAD PUSH1 0x40 MSTORE PUSH1 0x20 PUSH1 0x40 RETURN JUMPDEST POP JUMPDEST PUSH1 0x0 PUSH1 0x0 REVERT JUMPDEST PUSH1 0x0 DUP1 REVERT LOG1 PUSH6 0x767970657283 STOP SUB SMOD STOP SIGNEXTEND",
+  "pcMap": {
+    "0": {
+      "offset": [
+        0,
+        1469
+      ],
+      "op": "PUSH1",
+      "path": "0",
+      "value": "0x3"
+    },
+    "2": {
+      "op": "CALLDATASIZE"
+    },
+    "3": {
+      "op": "GT"
+    },
+    "4": {
+      "op": "PUSH2",
+      "value": "0x0C"
+    },
+    "7": {
+      "op": "JUMPI"
+    },
+    "8": {
+      "op": "PUSH2",
+      "value": "0x2AC"
+    },
+    "11": {
+      "op": "JUMP"
+    },
+    "12": {
+      "op": "JUMPDEST"
+    },
+    "13": {
+      "op": "PUSH1",
+      "value": "0x0"
+    },
+    "15": {
+      "op": "CALLDATALOAD"
+    },
+    "16": {
+      "op": "PUSH1",
+      "value": "0xE0"
+    },
+    "18": {
+      "op": "SHR"
+    },
+    "19": {
+      "op": "PUSH4",
+      "value": "0x54BAF27"
+    },
+    "24": {
+      "op": "DUP2"
+    },
+    "25": {
+      "op": "XOR"
+    },
+    "26": {
+      "op": "PUSH2",
+      "value": "0x093"
+    },
+    "29": {
+      "op": "JUMPI"
+    },
+    "30": {
+      "op": "PUSH1",
+      "value": "0x24"
+    },
+    "32": {
+      "op": "CALLDATASIZE"
+    },
+    "33": {
+      "op": "LT"
+    },
+    "34": {
+      "op": "PUSH2",
+      "value": "0x2B2"
+    },
+    "37": {
+      "op": "JUMPI"
+    },
+    "38": {
+      "op": "PUSH1",
+      "value": "0x4"
+    },
+    "40": {
+      "op": "CALLDATALOAD"
+    },
+    "41": {
+      "op": "DUP1"
+    },
+    "42": {
+      "op": "PUSH1",
+      "value": "0xA0"
+    },
+    "44": {
+      "op": "SHR"
+    },
+    "45": {
+      "op": "PUSH2",
+      "value": "0x2B2"
+    },
+    "48": {
+      "op": "JUMPI"
+    },
+    "49": {
+      "fn": "nft_mocked_contract.mintNFT",
+      "offset": [
+        866,
+        877
+      ],
+      "op": "PUSH1",
+      "path": "0",
+      "value": "0x40"
+    },
+    "51": {
+      "fn": "nft_mocked_contract.mintNFT",
+      "offset": [
+        866,
+        877
+      ],
+      "op": "MSTORE",
+      "path": "0"
+    },
+    "52": {
+      "fn": "nft_mocked_contract.mintNFT",
+      "offset": [
+        981,
+        992
+      ],
+      "op": "PUSH1",
+      "path": "0",
+      "statement": 0,
+      "value": "0x7"
+    },
+    "54": {
+      "op": "SLOAD"
+    },
+    "55": {
+      "fn": "nft_mocked_contract.mintNFT",
+      "offset": [
+        996,
+        997
+      ],
+      "op": "PUSH1",
+      "path": "0",
+      "value": "0x1"
+    },
+    "57": {
+      "op": "DUP2"
+    },
+    "58": {
+      "op": "ADD"
+    },
+    "59": {
+      "op": "DUP2"
+    },
+    "60": {
+      "op": "DUP2"
+    },
+    "61": {
+      "op": "LT"
+    },
+    "62": {
+      "op": "PUSH2",
+      "value": "0x2B2"
+    },
+    "65": {
+      "op": "JUMPI"
+    },
+    "66": {
+      "fn": "nft_mocked_contract.mintNFT",
+      "offset": [
+        981,
+        997
+      ],
+      "op": "SWAP1",
+      "path": "0"
+    },
+    "67": {
+      "fn": "nft_mocked_contract.mintNFT",
+      "offset": [
+        981,
+        997
+      ],
+      "op": "POP",
+      "path": "0"
+    },
+    "68": {
+      "fn": "nft_mocked_contract.mintNFT",
+      "offset": [
+        981,
+        992
+      ],
+      "op": "PUSH1",
+      "path": "0",
+      "value": "0x7"
+    },
+    "70": {
+      "op": "SSTORE"
+    },
+    "71": {
+      "fn": "nft_mocked_contract.mintNFT",
+      "offset": [
+        1002,
+        1015
+      ],
+      "op": "PUSH1",
+      "path": "0",
+      "statement": 1,
+      "value": "0x6"
+    },
+    "73": {
+      "fn": "nft_mocked_contract.mintNFT",
+      "offset": [
+        1016,
+        1018
+      ],
+      "op": "PUSH1",
+      "path": "0",
+      "value": "0x40"
+    },
+    "75": {
+      "op": "MLOAD"
+    },
+    "76": {
+      "fn": "nft_mocked_contract.mintNFT",
+      "offset": [
+        1002,
+        1019
+      ],
+      "op": "PUSH1",
+      "path": "0",
+      "value": "0x20"
+    },
+    "78": {
+      "fn": "nft_mocked_contract.mintNFT",
+      "offset": [
+        1002,
+        1019
+      ],
+      "op": "MSTORE",
+      "path": "0"
+    },
+    "79": {
+      "fn": "nft_mocked_contract.mintNFT",
+      "offset": [
+        1002,
+        1019
+      ],
+      "op": "PUSH1",
+      "path": "0",
+      "value": "0x0"
+    },
+    "81": {
+      "fn": "nft_mocked_contract.mintNFT",
+      "offset": [
+        1002,
+        1019
+      ],
+      "op": "MSTORE",
+      "path": "0"
+    },
+    "82": {
+      "fn": "nft_mocked_contract.mintNFT",
+      "offset": [
+        1002,
+        1019
+      ],
+      "op": "PUSH1",
+      "path": "0",
+      "value": "0x40"
+    },
+    "84": {
+      "fn": "nft_mocked_contract.mintNFT",
+      "offset": [
+        1002,
+        1019
+      ],
+      "op": "PUSH1",
+      "path": "0",
+      "value": "0x0"
+    },
+    "86": {
+      "fn": "nft_mocked_contract.mintNFT",
+      "offset": [
+        1002,
+        1019
+      ],
+      "op": "SHA3",
+      "path": "0"
+    },
+    "87": {
+      "op": "DUP1"
+    },
+    "88": {
+      "op": "SLOAD"
+    },
+    "89": {
+      "fn": "nft_mocked_contract.mintNFT",
+      "offset": [
+        1023,
+        1024
+      ],
+      "op": "PUSH1",
+      "path": "0",
+      "value": "0x1"
+    },
+    "91": {
+      "op": "DUP2"
+    },
+    "92": {
+      "op": "ADD"
+    },
+    "93": {
+      "op": "DUP2"
+    },
+    "94": {
+      "op": "DUP2"
+    },
+    "95": {
+      "op": "LT"
+    },
+    "96": {
+      "op": "PUSH2",
+      "value": "0x2B2"
+    },
+    "99": {
+      "op": "JUMPI"
+    },
+    "100": {
+      "fn": "nft_mocked_contract.mintNFT",
+      "offset": [
+        1002,
+        1024
+      ],
+      "op": "SWAP1",
+      "path": "0"
+    },
+    "101": {
+      "fn": "nft_mocked_contract.mintNFT",
+      "offset": [
+        1002,
+        1024
+      ],
+      "op": "POP",
+      "path": "0"
+    },
+    "102": {
+      "op": "DUP2"
+    },
+    "103": {
+      "op": "SSTORE"
+    },
+    "104": {
+      "fn": "nft_mocked_contract.mintNFT",
+      "offset": [
+        1002,
+        1024
+      ],
+      "op": "POP",
+      "path": "0"
+    },
+    "105": {
+      "fn": "nft_mocked_contract.mintNFT",
+      "offset": [
+        1040,
+        1041
+      ],
+      "op": "PUSH1",
+      "path": "0",
+      "statement": 2,
+      "value": "0x40"
+    },
+    "107": {
+      "fn": "nft_mocked_contract.mintNFT",
+      "offset": [
+        1029,
+        1041
+      ],
+      "op": "MLOAD",
+      "path": "0"
+    },
+    "108": {
+      "fn": "nft_mocked_contract.mintNFT",
+      "offset": [
+        1029,
+        1041
+      ],
+      "op": "PUSH32",
+      "path": "0",
+      "value": "0x3C3284D117C92DB169923960384E794DCBA184CC48FF114FE4FED2C9B565"
+    },
+    "141": {
+      "fn": "nft_mocked_contract.mintNFT",
+      "offset": [
+        1029,
+        1041
+      ],
+      "op": "PUSH1",
+      "path": "0",
+      "value": "0x0"
+    },
+    "143": {
+      "fn": "nft_mocked_contract.mintNFT",
+      "offset": [
+        1029,
+        1041
+      ],
+      "op": "PUSH1",
+      "path": "0",
+      "value": "0x60"
+    },
+    "145": {
+      "fn": "nft_mocked_contract.mintNFT",
+      "offset": [
+        1029,
+        1041
+      ],
+      "op": "LOG2",
+      "path": "0"
+    },
+    "146": {
+      "op": "STOP"
+    },
+    "147": {
+      "op": "JUMPDEST"
+    },
+    "148": {
+      "op": "CALLVALUE"
+    },
+    "149": {
+      "op": "PUSH2",
+      "value": "0x2B2"
+    },
+    "152": {
+      "op": "JUMPI"
+    },
+    "153": {
+      "op": "PUSH4",
+      "value": "0xF83EFEC8"
+    },
+    "158": {
+      "op": "DUP2"
+    },
+    "159": {
+      "op": "XOR"
+    },
+    "160": {
+      "op": "PUSH2",
+      "value": "0x119"
+    },
+    "163": {
+      "op": "JUMPI"
+    },
+    "164": {
+      "op": "PUSH1",
+      "value": "0x24"
+    },
+    "166": {
+      "op": "CALLDATASIZE"
+    },
+    "167": {
+      "op": "LT"
+    },
+    "168": {
+      "op": "PUSH2",
+      "value": "0x2B2"
+    },
+    "171": {
+      "op": "JUMPI"
+    },
+    "172": {
+      "op": "PUSH1",
+      "value": "0x4"
+    },
+    "174": {
+      "op": "CALLDATALOAD"
+    },
+    "175": {
+      "op": "DUP1"
+    },
+    "176": {
+      "op": "PUSH1",
+      "value": "0xA0"
+    },
+    "178": {
+      "op": "SHR"
+    },
+    "179": {
+      "op": "PUSH2",
+      "value": "0x2B2"
+    },
+    "182": {
+      "op": "JUMPI"
+    },
+    "183": {
+      "fn": "nft_mocked_contract.burnNFT",
+      "offset": [
+        1065,
+        1083
+      ],
+      "op": "PUSH1",
+      "path": "0",
+      "value": "0x40"
+    },
+    "185": {
+      "fn": "nft_mocked_contract.burnNFT",
+      "offset": [
+        1065,
+        1083
+      ],
+      "op": "MSTORE",
+      "path": "0"
+    },
+    "186": {
+      "fn": "nft_mocked_contract.burnNFT",
+      "offset": [
+        1192,
+        1203
+      ],
+      "op": "PUSH1",
+      "path": "0",
+      "statement": 3,
+      "value": "0x7"
+    },
+    "188": {
+      "op": "SLOAD"
+    },
+    "189": {
+      "fn": "nft_mocked_contract.burnNFT",
+      "offset": [
+        1207,
+        1208
+      ],
+      "op": "PUSH1",
+      "path": "0",
+      "value": "0x1"
+    },
+    "191": {
+      "op": "DUP2"
+    },
+    "192": {
+      "op": "SUB"
+    },
+    "193": {
+      "op": "DUP2"
+    },
+    "194": {
+      "op": "DUP2"
+    },
+    "195": {
+      "op": "GT"
+    },
+    "196": {
+      "op": "PUSH2",
+      "value": "0x2B2"
+    },
+    "199": {
+      "op": "JUMPI"
+    },
+    "200": {
+      "fn": "nft_mocked_contract.burnNFT",
+      "offset": [
+        1192,
+        1208
+      ],
+      "op": "SWAP1",
+      "path": "0"
+    },
+    "201": {
+      "fn": "nft_mocked_contract.burnNFT",
+      "offset": [
+        1192,
+        1208
+      ],
+      "op": "POP",
+      "path": "0"
+    },
+    "202": {
+      "fn": "nft_mocked_contract.burnNFT",
+      "offset": [
+        1192,
+        1203
+      ],
+      "op": "PUSH1",
+      "path": "0",
+      "value": "0x7"
+    },
+    "204": {
+      "op": "SSTORE"
+    },
+    "205": {
+      "fn": "nft_mocked_contract.burnNFT",
+      "offset": [
+        1213,
+        1226
+      ],
+      "op": "PUSH1",
+      "path": "0",
+      "statement": 4,
+      "value": "0x6"
+    },
+    "207": {
+      "fn": "nft_mocked_contract.burnNFT",
+      "offset": [
+        1227,
+        1236
+      ],
+      "op": "PUSH1",
+      "path": "0",
+      "value": "0x40"
+    },
+    "209": {
+      "op": "MLOAD"
+    },
+    "210": {
+      "fn": "nft_mocked_contract.burnNFT",
+      "offset": [
+        1213,
+        1237
+      ],
+      "op": "PUSH1",
+      "path": "0",
+      "value": "0x20"
+    },
+    "212": {
+      "fn": "nft_mocked_contract.burnNFT",
+      "offset": [
+        1213,
+        1237
+      ],
+      "op": "MSTORE",
+      "path": "0"
+    },
+    "213": {
+      "fn": "nft_mocked_contract.burnNFT",
+      "offset": [
+        1213,
+        1237
+      ],
+      "op": "PUSH1",
+      "path": "0",
+      "value": "0x0"
+    },
+    "215": {
+      "fn": "nft_mocked_contract.burnNFT",
+      "offset": [
+        1213,
+        1237
+      ],
+      "op": "MSTORE",
+      "path": "0"
+    },
+    "216": {
+      "fn": "nft_mocked_contract.burnNFT",
+      "offset": [
+        1213,
+        1237
+      ],
+      "op": "PUSH1",
+      "path": "0",
+      "value": "0x40"
+    },
+    "218": {
+      "fn": "nft_mocked_contract.burnNFT",
+      "offset": [
+        1213,
+        1237
+      ],
+      "op": "PUSH1",
+      "path": "0",
+      "value": "0x0"
+    },
+    "220": {
+      "fn": "nft_mocked_contract.burnNFT",
+      "offset": [
+        1213,
+        1237
+      ],
+      "op": "SHA3",
+      "path": "0"
+    },
+    "221": {
+      "op": "DUP1"
+    },
+    "222": {
+      "op": "SLOAD"
+    },
+    "223": {
+      "fn": "nft_mocked_contract.burnNFT",
+      "offset": [
+        1241,
+        1242
+      ],
+      "op": "PUSH1",
+      "path": "0",
+      "value": "0x1"
+    },
+    "225": {
+      "op": "DUP2"
+    },
+    "226": {
+      "op": "SUB"
+    },
+    "227": {
+      "op": "DUP2"
+    },
+    "228": {
+      "op": "DUP2"
+    },
+    "229": {
+      "op": "GT"
+    },
+    "230": {
+      "op": "PUSH2",
+      "value": "0x2B2"
+    },
+    "233": {
+      "op": "JUMPI"
+    },
+    "234": {
+      "fn": "nft_mocked_contract.burnNFT",
+      "offset": [
+        1213,
+        1242
+      ],
+      "op": "SWAP1",
+      "path": "0"
+    },
+    "235": {
+      "fn": "nft_mocked_contract.burnNFT",
+      "offset": [
+        1213,
+        1242
+      ],
+      "op": "POP",
+      "path": "0"
+    },
+    "236": {
+      "op": "DUP2"
+    },
+    "237": {
+      "op": "SSTORE"
+    },
+    "238": {
+      "fn": "nft_mocked_contract.burnNFT",
+      "offset": [
+        1213,
+        1242
+      ],
+      "op": "POP",
+      "path": "0"
+    },
+    "239": {
+      "fn": "nft_mocked_contract.burnNFT",
+      "offset": [
+        1256,
+        1265
+      ],
+      "op": "PUSH1",
+      "path": "0",
+      "statement": 5,
+      "value": "0x40"
+    },
+    "241": {
+      "fn": "nft_mocked_contract.burnNFT",
+      "offset": [
+        1247,
+        1266
+      ],
+      "op": "MLOAD",
+      "path": "0"
+    },
+    "242": {
+      "fn": "nft_mocked_contract.burnNFT",
+      "offset": [
+        1247,
+        1266
+      ],
+      "op": "PUSH32",
+      "path": "0",
+      "value": "0xE22DE1457CB61FB61B60176BC4235A9ABD19466126B46692BC14FC573F99249"
+    },
+    "275": {
+      "fn": "nft_mocked_contract.burnNFT",
+      "offset": [
+        1247,
+        1266
+      ],
+      "op": "PUSH1",
+      "path": "0",
+      "value": "0x0"
+    },
+    "277": {
+      "fn": "nft_mocked_contract.burnNFT",
+      "offset": [
+        1247,
+        1266
+      ],
+      "op": "PUSH1",
+      "path": "0",
+      "value": "0x60"
+    },
+    "279": {
+      "fn": "nft_mocked_contract.burnNFT",
+      "offset": [
+        1247,
+        1266
+      ],
+      "op": "LOG2",
+      "path": "0"
+    },
+    "280": {
+      "op": "STOP"
+    },
+    "281": {
+      "op": "JUMPDEST"
+    },
+    "282": {
+      "op": "PUSH4",
+      "value": "0x70A08231"
+    },
+    "287": {
+      "op": "DUP2"
+    },
+    "288": {
+      "op": "XOR"
+    },
+    "289": {
+      "op": "PUSH2",
+      "value": "0x154"
+    },
+    "292": {
+      "op": "JUMPI"
+    },
+    "293": {
+      "op": "PUSH1",
+      "value": "0x24"
+    },
+    "295": {
+      "op": "CALLDATASIZE"
+    },
+    "296": {
+      "op": "LT"
+    },
+    "297": {
+      "op": "PUSH2",
+      "value": "0x2B2"
+    },
+    "300": {
+      "op": "JUMPI"
+    },
+    "301": {
+      "op": "PUSH1",
+      "value": "0x4"
+    },
+    "303": {
+      "op": "CALLDATALOAD"
+    },
+    "304": {
+      "op": "DUP1"
+    },
+    "305": {
+      "op": "PUSH1",
+      "value": "0xA0"
+    },
+    "307": {
+      "op": "SHR"
+    },
+    "308": {
+      "op": "PUSH2",
+      "value": "0x2B2"
+    },
+    "311": {
+      "op": "JUMPI"
+    },
+    "312": {
+      "fn": "nft_mocked_contract.balanceOf",
+      "offset": [
+        1296,
+        1311
+      ],
+      "op": "PUSH1",
+      "path": "0",
+      "value": "0x40"
+    },
+    "314": {
+      "fn": "nft_mocked_contract.balanceOf",
+      "offset": [
+        1296,
+        1311
+      ],
+      "op": "MSTORE",
+      "path": "0"
+    },
+    "315": {
+      "fn": "nft_mocked_contract.balanceOf",
+      "offset": [
+        1448,
+        1461
+      ],
+      "op": "PUSH1",
+      "path": "0",
+      "statement": 6,
+      "value": "0x6"
+    },
+    "317": {
+      "fn": "nft_mocked_contract.balanceOf",
+      "offset": [
+        1462,
+        1468
+      ],
+      "op": "PUSH1",
+      "path": "0",
+      "value": "0x40"
+    },
+    "319": {
+      "op": "MLOAD"
+    },
+    "320": {
+      "fn": "nft_mocked_contract.balanceOf",
+      "offset": [
+        1448,
+        1469
+      ],
+      "op": "PUSH1",
+      "path": "0",
+      "value": "0x20"
+    },
+    "322": {
+      "fn": "nft_mocked_contract.balanceOf",
+      "offset": [
+        1448,
+        1469
+      ],
+      "op": "MSTORE",
+      "path": "0"
+    },
+    "323": {
+      "fn": "nft_mocked_contract.balanceOf",
+      "offset": [
+        1448,
+        1469
+      ],
+      "op": "PUSH1",
+      "path": "0",
+      "value": "0x0"
+    },
+    "325": {
+      "fn": "nft_mocked_contract.balanceOf",
+      "offset": [
+        1448,
+        1469
+      ],
+      "op": "MSTORE",
+      "path": "0"
+    },
+    "326": {
+      "fn": "nft_mocked_contract.balanceOf",
+      "offset": [
+        1448,
+        1469
+      ],
+      "op": "PUSH1",
+      "path": "0",
+      "value": "0x40"
+    },
+    "328": {
+      "fn": "nft_mocked_contract.balanceOf",
+      "offset": [
+        1448,
+        1469
+      ],
+      "op": "PUSH1",
+      "path": "0",
+      "value": "0x0"
+    },
+    "330": {
+      "fn": "nft_mocked_contract.balanceOf",
+      "offset": [
+        1448,
+        1469
+      ],
+      "op": "SHA3",
+      "path": "0"
+    },
+    "331": {
+      "op": "SLOAD"
+    },
+    "332": {
+      "op": "PUSH1",
+      "value": "0x60"
+    },
+    "334": {
+      "op": "MSTORE"
+    },
+    "335": {
+      "op": "PUSH1",
+      "value": "0x20"
+    },
+    "337": {
+      "op": "PUSH1",
+      "value": "0x60"
+    },
+    "339": {
+      "op": "RETURN"
+    },
+    "340": {
+      "op": "JUMPDEST"
+    },
+    "341": {
+      "op": "PUSH4",
+      "value": "0x6FDDE3"
+    },
+    "346": {
+      "op": "DUP2"
+    },
+    "347": {
+      "op": "XOR"
+    },
+    "348": {
+      "op": "PUSH2",
+      "value": "0x1D9"
+    },
+    "351": {
+      "op": "JUMPI"
+    },
+    "352": {
+      "op": "PUSH1",
+      "value": "0x4"
+    },
+    "354": {
+      "op": "CALLDATASIZE"
+    },
+    "355": {
+      "op": "LT"
+    },
+    "356": {
+      "op": "PUSH2",
+      "value": "0x2B2"
+    },
+    "359": {
+      "op": "JUMPI"
+    },
+    "360": {
+      "op": "PUSH1",
+      "value": "0x20"
+    },
+    "362": {
+      "op": "DUP1"
+    },
+    "363": {
+      "op": "PUSH1",
+      "value": "0x40"
+    },
+    "365": {
+      "op": "MSTORE"
+    },
+    "366": {
+      "op": "DUP1"
+    },
+    "367": {
+      "op": "PUSH1",
+      "value": "0x40"
+    },
+    "369": {
+      "op": "ADD"
+    },
+    "370": {
+      "op": "PUSH1",
+      "value": "0x0"
+    },
+    "372": {
+      "op": "SLOAD"
+    },
+    "373": {
+      "op": "DUP1"
+    },
+    "374": {
+      "op": "DUP3"
+    },
+    "375": {
+      "op": "MSTORE"
+    },
+    "376": {
+      "op": "PUSH1",
+      "value": "0x20"
+    },
+    "378": {
+      "op": "DUP3"
+    },
+    "379": {
+      "op": "ADD"
+    },
+    "380": {
+      "op": "PUSH1",
+      "value": "0x0"
+    },
+    "382": {
+      "op": "DUP3"
+    },
+    "383": {
+      "op": "PUSH1",
+      "value": "0x1F"
+    },
+    "385": {
+      "op": "ADD"
+    },
+    "386": {
+      "op": "PUSH1",
+      "value": "0x5"
+    },
+    "388": {
+      "op": "SHR"
+    },
+    "389": {
+      "op": "PUSH1",
+      "value": "0x2"
+    },
+    "391": {
+      "op": "DUP2"
+    },
+    "392": {
+      "op": "GT"
+    },
+    "393": {
+      "op": "PUSH2",
+      "value": "0x2B2"
+    },
+    "396": {
+      "op": "JUMPI"
+    },
+    "397": {
+      "op": "DUP1"
+    },
+    "398": {
+      "op": "ISZERO"
+    },
+    "399": {
+      "op": "PUSH2",
+      "value": "0x1AB"
+    },
+    "402": {
+      "op": "JUMPI"
+    },
+    "403": {
+      "op": "SWAP1"
+    },
+    "404": {
+      "op": "JUMPDEST"
+    },
+    "405": {
+      "op": "DUP1"
+    },
+    "406": {
+      "op": "PUSH1",
+      "value": "0x1"
+    },
+    "408": {
+      "op": "ADD"
+    },
+    "409": {
+      "op": "SLOAD"
+    },
+    "410": {
+      "op": "DUP2"
+    },
+    "411": {
+      "op": "PUSH1",
+      "value": "0x5"
+    },
+    "413": {
+      "op": "SHL"
+    },
+    "414": {
+      "op": "DUP5"
+    },
+    "415": {
+      "op": "ADD"
+    },
+    "416": {
+      "op": "MSTORE"
+    },
+    "417": {
+      "op": "PUSH1",
+      "value": "0x1"
+    },
+    "419": {
+      "op": "ADD"
+    },
+    "420": {
+      "op": "DUP2"
+    },
+    "421": {
+      "op": "DUP2"
+    },
+    "422": {
+      "op": "XOR"
+    },
+    "423": {
+      "op": "PUSH2",
+      "value": "0x194"
+    },
+    "426": {
+      "op": "JUMPI"
+    },
+    "427": {
+      "op": "JUMPDEST"
+    },
+    "428": {
+      "op": "POP"
+    },
+    "429": {
+      "op": "POP"
+    },
+    "430": {
+      "op": "POP"
+    },
+    "431": {
+      "op": "POP"
+    },
+    "432": {
+      "op": "DUP1"
+    },
+    "433": {
+      "op": "MLOAD"
+    },
+    "434": {
+      "op": "DUP1"
+    },
+    "435": {
+      "op": "PUSH1",
+      "value": "0x20"
+    },
+    "437": {
+      "op": "DUP4"
+    },
+    "438": {
+      "op": "ADD"
+    },
+    "439": {
+      "op": "ADD"
+    },
+    "440": {
+      "op": "PUSH1",
+      "value": "0x1F"
+    },
+    "442": {
+      "op": "DUP3"
+    },
+    "443": {
+      "op": "PUSH1",
+      "value": "0x0"
+    },
+    "445": {
+      "op": "SUB"
+    },
+    "446": {
+      "op": "AND"
+    },
+    "447": {
+      "op": "CALLDATASIZE"
+    },
+    "448": {
+      "op": "DUP3"
+    },
+    "449": {
+      "op": "CALLDATACOPY"
+    },
+    "450": {
+      "op": "POP"
+    },
+    "451": {
+      "op": "POP"
+    },
+    "452": {
+      "op": "PUSH1",
+      "value": "0x1F"
+    },
+    "454": {
+      "op": "NOT"
+    },
+    "455": {
+      "op": "PUSH1",
+      "value": "0x1F"
+    },
+    "457": {
+      "op": "DUP3"
+    },
+    "458": {
+      "op": "MLOAD"
+    },
+    "459": {
+      "op": "PUSH1",
+      "value": "0x20"
+    },
+    "461": {
+      "op": "ADD"
+    },
+    "462": {
+      "op": "ADD"
+    },
+    "463": {
+      "op": "AND"
+    },
+    "464": {
+      "op": "SWAP1"
+    },
+    "465": {
+      "op": "POP"
+    },
+    "466": {
+      "op": "DUP2"
+    },
+    "467": {
+      "op": "ADD"
+    },
+    "468": {
+      "op": "SWAP1"
+    },
+    "469": {
+      "op": "POP"
+    },
+    "470": {
+      "op": "PUSH1",
+      "value": "0x40"
+    },
+    "472": {
+      "op": "RETURN"
+    },
+    "473": {
+      "op": "JUMPDEST"
+    },
+    "474": {
+      "op": "PUSH4",
+      "value": "0x95D89B41"
+    },
+    "479": {
+      "op": "DUP2"
+    },
+    "480": {
+      "op": "XOR"
+    },
+    "481": {
+      "op": "PUSH2",
+      "value": "0x231"
+    },
+    "484": {
+      "op": "JUMPI"
+    },
+    "485": {
+      "op": "PUSH1",
+      "value": "0x4"
+    },
+    "487": {
+      "op": "CALLDATASIZE"
+    },
+    "488": {
+      "op": "LT"
+    },
+    "489": {
+      "op": "PUSH2",
+      "value": "0x2B2"
+    },
+    "492": {
+      "op": "JUMPI"
+    },
+    "493": {
+      "op": "PUSH1",
+      "value": "0x20"
+    },
+    "495": {
+      "op": "DUP1"
+    },
+    "496": {
+      "op": "PUSH1",
+      "value": "0x40"
+    },
+    "498": {
+      "op": "MSTORE"
+    },
+    "499": {
+      "op": "DUP1"
+    },
+    "500": {
+      "op": "PUSH1",
+      "value": "0x40"
+    },
+    "502": {
+      "op": "ADD"
+    },
+    "503": {
+      "op": "PUSH1",
+      "value": "0x3"
+    },
+    "505": {
+      "op": "SLOAD"
+    },
+    "506": {
+      "op": "DUP1"
+    },
+    "507": {
+      "op": "DUP3"
+    },
+    "508": {
+      "op": "MSTORE"
+    },
+    "509": {
+      "op": "PUSH1",
+      "value": "0x20"
+    },
+    "511": {
+      "op": "DUP3"
+    },
+    "512": {
+      "op": "ADD"
+    },
+    "513": {
+      "op": "PUSH1",
+      "value": "0x4"
+    },
+    "515": {
+      "op": "SLOAD"
+    },
+    "516": {
+      "op": "DUP2"
+    },
+    "517": {
+      "op": "MSTORE"
+    },
+    "518": {
+      "op": "POP"
+    },
+    "519": {
+      "op": "POP"
+    },
+    "520": {
+      "op": "DUP1"
+    },
+    "521": {
+      "op": "MLOAD"
+    },
+    "522": {
+      "op": "DUP1"
+    },
+    "523": {
+      "op": "PUSH1",
+      "value": "0x20"
+    },
+    "525": {
+      "op": "DUP4"
+    },
+    "526": {
+      "op": "ADD"
+    },
+    "527": {
+      "op": "ADD"
+    },
+    "528": {
+      "op": "PUSH1",
+      "value": "0x1F"
+    },
+    "530": {
+      "op": "DUP3"
+    },
+    "531": {
+      "op": "PUSH1",
+      "value": "0x0"
+    },
+    "533": {
+      "op": "SUB"
+    },
+    "534": {
+      "op": "AND"
+    },
+    "535": {
+      "op": "CALLDATASIZE"
+    },
+    "536": {
+      "op": "DUP3"
+    },
+    "537": {
+      "op": "CALLDATACOPY"
+    },
+    "538": {
+      "op": "POP"
+    },
+    "539": {
+      "op": "POP"
+    },
+    "540": {
+      "op": "PUSH1",
+      "value": "0x1F"
+    },
+    "542": {
+      "op": "NOT"
+    },
+    "543": {
+      "op": "PUSH1",
+      "value": "0x1F"
+    },
+    "545": {
+      "op": "DUP3"
+    },
+    "546": {
+      "op": "MLOAD"
+    },
+    "547": {
+      "op": "PUSH1",
+      "value": "0x20"
+    },
+    "549": {
+      "op": "ADD"
+    },
+    "550": {
+      "op": "ADD"
+    },
+    "551": {
+      "op": "AND"
+    },
+    "552": {
+      "op": "SWAP1"
+    },
+    "553": {
+      "op": "POP"
+    },
+    "554": {
+      "op": "DUP2"
+    },
+    "555": {
+      "op": "ADD"
+    },
+    "556": {
+      "op": "SWAP1"
+    },
+    "557": {
+      "op": "POP"
+    },
+    "558": {
+      "op": "PUSH1",
+      "value": "0x40"
+    },
+    "560": {
+      "op": "RETURN"
+    },
+    "561": {
+      "op": "JUMPDEST"
+    },
+    "562": {
+      "op": "PUSH4",
+      "value": "0x378DC3DC"
+    },
+    "567": {
+      "op": "DUP2"
+    },
+    "568": {
+      "op": "XOR"
+    },
+    "569": {
+      "op": "PUSH2",
+      "value": "0x250"
+    },
+    "572": {
+      "op": "JUMPI"
+    },
+    "573": {
+      "op": "PUSH1",
+      "value": "0x4"
+    },
+    "575": {
+      "op": "CALLDATASIZE"
+    },
+    "576": {
+      "op": "LT"
+    },
+    "577": {
+      "op": "PUSH2",
+      "value": "0x2B2"
+    },
+    "580": {
+      "op": "JUMPI"
+    },
+    "581": {
+      "op": "PUSH1",
+      "value": "0x5"
+    },
+    "583": {
+      "op": "SLOAD"
+    },
+    "584": {
+      "op": "PUSH1",
+      "value": "0x40"
+    },
+    "586": {
+      "op": "MSTORE"
+    },
+    "587": {
+      "op": "PUSH1",
+      "value": "0x20"
+    },
+    "589": {
+      "op": "PUSH1",
+      "value": "0x40"
+    },
+    "591": {
+      "op": "RETURN"
+    },
+    "592": {
+      "op": "JUMPDEST"
+    },
+    "593": {
+      "op": "PUSH4",
+      "value": "0x27E235E3"
+    },
+    "598": {
+      "op": "DUP2"
+    },
+    "599": {
+      "op": "XOR"
+    },
+    "600": {
+      "op": "PUSH2",
+      "value": "0x28B"
+    },
+    "603": {
+      "op": "JUMPI"
+    },
+    "604": {
+      "op": "PUSH1",
+      "value": "0x24"
+    },
+    "606": {
+      "op": "CALLDATASIZE"
+    },
+    "607": {
+      "op": "LT"
+    },
+    "608": {
+      "op": "PUSH2",
+      "value": "0x2B2"
+    },
+    "611": {
+      "op": "JUMPI"
+    },
+    "612": {
+      "op": "PUSH1",
+      "value": "0x4"
+    },
+    "614": {
+      "op": "CALLDATALOAD"
+    },
+    "615": {
+      "op": "DUP1"
+    },
+    "616": {
+      "op": "PUSH1",
+      "value": "0xA0"
+    },
+    "618": {
+      "op": "SHR"
+    },
+    "619": {
+      "op": "PUSH2",
+      "value": "0x2B2"
+    },
+    "622": {
+      "op": "JUMPI"
+    },
+    "623": {
+      "op": "PUSH1",
+      "value": "0x40"
+    },
+    "625": {
+      "op": "MSTORE"
+    },
+    "626": {
+      "op": "PUSH1",
+      "value": "0x6"
+    },
+    "628": {
+      "op": "PUSH1",
+      "value": "0x40"
+    },
+    "630": {
+      "op": "MLOAD"
+    },
+    "631": {
+      "op": "PUSH1",
+      "value": "0x20"
+    },
+    "633": {
+      "op": "MSTORE"
+    },
+    "634": {
+      "op": "PUSH1",
+      "value": "0x0"
+    },
+    "636": {
+      "op": "MSTORE"
+    },
+    "637": {
+      "op": "PUSH1",
+      "value": "0x40"
+    },
+    "639": {
+      "op": "PUSH1",
+      "value": "0x0"
+    },
+    "641": {
+      "op": "SHA3"
+    },
+    "642": {
+      "op": "SLOAD"
+    },
+    "643": {
+      "op": "PUSH1",
+      "value": "0x60"
+    },
+    "645": {
+      "op": "MSTORE"
+    },
+    "646": {
+      "op": "PUSH1",
+      "value": "0x20"
+    },
+    "648": {
+      "op": "PUSH1",
+      "value": "0x60"
+    },
+    "650": {
+      "op": "RETURN"
+    },
+    "651": {
+      "op": "JUMPDEST"
+    },
+    "652": {
+      "op": "PUSH4",
+      "value": "0x47FC9AA"
+    },
+    "657": {
+      "op": "DUP2"
+    },
+    "658": {
+      "op": "XOR"
+    },
+    "659": {
+      "op": "PUSH2",
+      "value": "0x2AA"
+    },
+    "662": {
+      "op": "JUMPI"
+    },
+    "663": {
+      "op": "PUSH1",
+      "value": "0x4"
+    },
+    "665": {
+      "op": "CALLDATASIZE"
+    },
+    "666": {
+      "op": "LT"
+    },
+    "667": {
+      "op": "PUSH2",
+      "value": "0x2B2"
+    },
+    "670": {
+      "op": "JUMPI"
+    },
+    "671": {
+      "op": "PUSH1",
+      "value": "0x7"
+    },
+    "673": {
+      "op": "SLOAD"
+    },
+    "674": {
+      "op": "PUSH1",
+      "value": "0x40"
+    },
+    "676": {
+      "op": "MSTORE"
+    },
+    "677": {
+      "op": "PUSH1",
+      "value": "0x20"
+    },
+    "679": {
+      "op": "PUSH1",
+      "value": "0x40"
+    },
+    "681": {
+      "op": "RETURN"
+    },
+    "682": {
+      "op": "JUMPDEST"
+    },
+    "683": {
+      "op": "POP"
+    },
+    "684": {
+      "op": "JUMPDEST"
+    },
+    "685": {
+      "op": "PUSH1",
+      "value": "0x0"
+    },
+    "687": {
+      "op": "PUSH1",
+      "value": "0x0"
+    },
+    "689": {
+      "op": "REVERT"
+    },
+    "690": {
+      "op": "JUMPDEST"
+    },
+    "691": {
+      "op": "PUSH1",
+      "value": "0x0"
+    },
+    "693": {
+      "op": "DUP1"
+    },
+    "694": {
+      "op": "REVERT"
+    }
+  },
+  "sha1": "e601310fd93330293eabd8ecc36a6e2fc09e17b0",
+  "source": "# @version ^0.3.7\n\"\"\"\n@title Mock Saturn Series ERC721 Token\n@dev This contract replicates the functionality of the ERC721 standard, but\n     with a few differences. It is intended to be used for testing purposes\n     only.\n@author 0xcassini.eth\n\"\"\"\n\nevent Mint:\n    to: indexed(address)\n\nevent Burn:\n    to: indexed(address)\n\nname: public(String[64])\nsymbol: public(String[32])\ninitialSupply: public(uint256)\nbalances: public(HashMap[address, uint256])\nsupply: public(uint256)\n\n@external\ndef __init__(name: String[64], symbol: String[32], initialSupply: uint256):\n    \"\"\"\n    @notice Initialize the contract\n    @param name The name of the token\n    @param symbol The symbol of the token\n    @param initialSupply The initial supply of the token\n    \"\"\"\n    self.name = name\n    self.symbol = symbol\n    self.supply = initialSupply\n\n\n\n@payable\n@external\ndef mintNFT(to: address):\n    \"\"\"\n    @notice Mint a new mocked NFT\n    @param to The address to mint the token to\n    \"\"\"\n    self.supply += 1\n    self.balances[to] += 1\n    log Mint(to)\n\n@external\ndef burnNFT(cardOwner: address):\n    \"\"\"\n    @notice Burn a mocked NFT\n    @param cardOwner The address to burn the token from\n    \"\"\"\n    self.supply -= 1\n    self.balances[cardOwner] -= 1\n    log Burn(cardOwner)\n    \n@external\ndef balanceOf(legend: address) -> uint256:\n    \"\"\"\n    @notice Get the balance of a mocked NFT\n    @param legend The address to get the balance of\n    \"\"\"\n    return self.balances[legend]\n\n",
+  "sourceMap": "",
+  "sourcePath": "contracts/nft_mocked_contract.vy",
+  "type": "contract"
+}
