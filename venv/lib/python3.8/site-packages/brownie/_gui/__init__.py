@@ -1,3 +1,0 @@
-#!/usr/bin/python3
-
-from .root import Root as Gui  # noqa: F401
