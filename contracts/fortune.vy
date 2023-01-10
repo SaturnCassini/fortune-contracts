@@ -240,7 +240,7 @@ def burnFortune() -> bool:
 
 @view
 @external
-def cardOwnedBy(legend:address)-> uint256:
+def currentCardIdFrom(legend:address)-> uint256:
     """
     @notice Getter to check the current cardNumber of an address
     @dev this is not yet tested and should be used with caution

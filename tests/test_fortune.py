@@ -122,7 +122,7 @@ def test_minting_multiple_increases_card_number(mockedNFT, fortune, sudo, chain)
         fortune.burnFortune(sender=sudo)
         assert fortune.fortuneBalance(sudo) == 0
 
-    assert fortune.cardOwnedBy(sudo) == loops-1
+    assert fortune.currentCardIdFrom(sudo) == loops-1
 
 # @pytest.mark.skip('fails sometimes if the outcome is positive')
 def test_update_fee(mockedNFT, fortune, sudo, chain):
