@@ -8,18 +8,22 @@ def test_mint_nft(mockedNFT,sudo):
 
 def test_fortune(fortune, sudo):
     # Should not allow you to mint if youre not a legend
-    fortune.mintFortune(sudo, sender=sudo)
-    nftBalance = fortune.balanceOf(sudo)
-    assert nftBalance == 1
+    with pytest.raises(Exception):
+        fortune.mintFortune(sudo, sender=sudo)
+
     
 def test_fortune_burn_must_wait(mockedNFT, fortune, sudo):
     mockedNFT.mintNFT(sudo, sender=sudo)
     fortune.mintFortune(sudo, sender=sudo)
-    assert fortune.burnFortune(sender=sudo) == True
+    with pytest.raises(Exception):
+        fortune.burnFortune(sender=sudo) == True
 
-def test_fortune_burn(mockedNFT, fortune, sudo,project):
+def test_fortune_burn(mockedNFT, fortune, sudo,chain):
     mockedNFT.mintNFT(sudo, sender=sudo)
     fortune.mintFortune(sudo, sender=sudo)
+    assert fortune.balanceOf(sudo) == 1
     # Time travel 24 hours
-    project.time_travel(86400)
-    assert fortune.burnFortune(sender=sudo) == True
+    chain.pending_timestamp += 60*6
+    chain.mine(4)
+    fortune.burnFortune(sender=sudo) 
+    assert fortune.balanceOf(sudo) == 0

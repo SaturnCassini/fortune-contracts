@@ -38,8 +38,3 @@ Change directories
 # Compile
 `ape plugins install vyper`
 `ape compile`
-
-Run the brownie tests
-`brownie test`
-
-open [jupyter notebook]
