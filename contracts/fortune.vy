@@ -77,6 +77,7 @@ fortuneContract: public(address)
 
 tributeBalance: public(uint256)
 tributeLost: public(uint256)
+tributeLostAndUnclaimed: public(uint256)
 owner: public(address)
 
 @external
@@ -229,7 +230,7 @@ def burnFortune() -> bool:
         self.tributeLost += currentFortune.tribute
         log BurnFortune(msg.sender, 'BAD')
         return False
-        
+
 @view
 @external
 def getLegendBalance() -> uint256:
@@ -277,8 +278,18 @@ def setOwner(new_owner:address) -> bool:
     else:
         raise "Not a Legend"
 
+@view
 @external
-def withdrawTributes() -> bool:
+def getUnclaimedLostTribute()-> uint256:
+    """
+    @notice Getter to check the current ETH balance of the fortune chest that has been lost and unclaimed
+    @dev this is not yet tested and should be used with caution
+    @return ETH balance
+    """
+    return self.tributeLostAndUnclaimed
+
+@external
+def withdrawLostTributes() -> bool:
     """
     @notice Withdraw the ETH from the fortune chest
     @dev this is not yet tested and should be used with caution
@@ -289,6 +300,7 @@ def withdrawTributes() -> bool:
     if self.owner == msg.sender:
         send(self.owner, self.balance)
         self.tributeBalance = 0
+        self.tributeLostAndUnclaimed = 0
         return True
     else:
         raise "Not the contract Owner"

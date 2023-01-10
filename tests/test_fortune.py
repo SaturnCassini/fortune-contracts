@@ -64,3 +64,23 @@ def test_transfer_fortune_and_burn_it(mockedNFT, fortune, sudo, chain, accounts)
     fortune.burnFortune(sender=accounts[1])
     assert fortune.fortuneBalance(accounts[1]) == 0
 
+
+def test_withdraw_tribute_after_fortunes_burned(mockedNFT, fortune, sudo, chain):
+    mockedNFT.mintNFT(sudo, sender=sudo)
+
+    tribute = 123123
+    for i in range(20):
+        # Time travel 24 hours
+        chain.pending_timestamp += 3600*25
+        chain.mine(4)
+        fortune.mintFortune(sudo, sender=sudo, value=tribute)
+        assert fortune.fortuneBalance(sudo) == 1
+        assert fortune.tributeBalance() > 0
+        chain.pending_timestamp += 60*6
+        chain.mine(4)
+        fortune.burnFortune(sender=sudo) 
+
+    assert fortune.tributeLost() > 0
+    fortune.withdrawLostTributes(sender=sudo)
+    assert fortune.tributeBalance() == 0
+    assert fortune.tributeLostAndUnclaimed() == 0
