@@ -92,7 +92,7 @@ def __init__(_name: String[64], _symbol: String[32], _total_supply: uint256, leg
 
 @view
 @external
-def balanceOf(_owner: address) -> uint256:
+def fortuneBalance(_owner: address) -> uint256:
     """
     @notice Getter to check the current balance of an address
     @param _owner Address to query the balance of
@@ -217,24 +217,19 @@ def burnFortune() -> bool:
     assert self.balances[msg.sender] >= 1, "You dont have a fortune to burn"
     # Make sure there has passed at least 60 seconds since mint
     assert block.timestamp > currentFortune.dateMinted + 300 , "Wait at least 5 minutes to burn your fortune"
-    if self.legendsContract.balanceOf(msg.sender) > 0: # if the caller is a legend
-        self.totalSupply -= 1
-        self.balances[msg.sender] -= 1
+    self.totalSupply -= 1
+    self.balances[msg.sender] -= 1
 
-
-        if ((self.balance + block.prevrandao + currentFortune.dateMinted + currentFortune.randomness + currentFortune.cardNumber) % 23) % 2 == 0:
-            self.tributeBalance -= currentFortune.tribute
-            send(msg.sender, currentFortune.tribute)
-            log BurnFortune(msg.sender, 'GOOD')
-            return True
-        else:
-            self.tributeLost += currentFortune.tribute
-            log BurnFortune(msg.sender, 'BAD')
-            return False
-
+    if ((self.balance + block.prevrandao + currentFortune.dateMinted + currentFortune.randomness + currentFortune.cardNumber) % 23) % 2 == 0:
+        self.tributeBalance -= currentFortune.tribute
+        send(msg.sender, currentFortune.tribute)
+        log BurnFortune(msg.sender, 'GOOD')
+        return True
     else:
-        raise "Not a Legend"
-
+        self.tributeLost += currentFortune.tribute
+        log BurnFortune(msg.sender, 'BAD')
+        return False
+        
 @view
 @external
 def getLegendBalance() -> uint256:
