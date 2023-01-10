@@ -225,14 +225,15 @@ def burnFortune() -> bool:
     self.balances[msg.sender] -= 1
 
     if ((self.balance + block.prevrandao + currentFortune.dateMinted + currentFortune.randomness + currentFortune.cardNumber) % 23) % 2 == 0:
-        self.tributeBalance -= currentFortune.tribute
         reward: uint256 = currentFortune.tribute - ( currentFortune.tribute * self.tributeFee / 100)
+        self.tributeBalance -= reward
         send(msg.sender, reward)
         log BurnFortune(msg.sender, 'GOOD')
         return True
     else:
-        self.tributeLost += currentFortune.tribute
-        reward: uint256 = currentFortune.tribute - ( currentFortune.tribute * (self.tributeFee*2) / 100)
+        reward: uint256 = currentFortune.tribute - ( currentFortune.tribute * (self.tributeFee) / 100)
+        self.tributeLost += reward
+        self.tributeBalance -= reward
         send(msg.sender, reward)
         log BurnFortune(msg.sender, 'BAD')
         return False
@@ -319,3 +320,30 @@ def withdrawLostTributes() -> bool:
         return True
     else:
         raise "Not the contract Owner"
+
+
+@external
+def setTributeFee(percentage: uint256)-> bool:
+    """
+    @notice Setter to set the tribute fee
+    @dev this is not yet tested and should be used with caution
+    @dev You could add an assert here to make sure the owner of the nft is the one who can burn
+    @param percentage The percentage of the tribute that will be taken
+    @return Success boolean
+    """
+    assert self.owner == msg.sender
+    if self.owner == msg.sender:
+        self.tributeFee = percentage
+        return True
+    else:
+        raise "Not the contract Owner"
+
+@view
+@external
+def getTributeFee()-> uint256:
+    """
+    @notice Getter to check the current tribute fee
+    @dev this is not yet tested and should be used with caution
+    @return tribute fee
+    """
+    return self.tributeFee
