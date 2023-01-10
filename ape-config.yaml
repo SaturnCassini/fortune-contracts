@@ -1,1 +1,6 @@
 name: fortune-contracts
+plugins:
+  - name: vyper
+  - name: alchemy
+  - name: etherscan
+  
