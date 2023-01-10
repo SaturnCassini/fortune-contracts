@@ -7,7 +7,7 @@
         starting point for the final implementation
         
         Owners of the Legends NFT can mint an unrevealed Fortune
-        card as an ERC20 to any address.
+        card as an ERC20 to any address, and pay an upfront tribute.
 
         The Fortune cards can be burned to generate an event of GOOD or BAD
         fortune. The event is a string of 4 characters, which can be used
@@ -16,8 +16,7 @@
         The Fortune cards can be traded, but only the owner of the NFT can mint
         a new Fortune card.
 
-        When the FORTUNE card is burnt, the burner can pay a tribute to alter the event.
-        The tribute is paid in ETH.
+        When the FORTUNE card is burnt, the burner can get back their initial tribute minus a fee.
 
         There is a withdraw function that can only be called by the owner of the contract.
         This is to allow the owner to withdraw the ETH tributes.
@@ -50,15 +49,13 @@ event BurnFortune:
 # The Fortune card is an ERC20 token that is tied to the value of the tribute it was minted with
 struct FortuneCard:
     cardNumber: uint256
-    tribute: uint256
+    tributeAmount: uint256
     dateMinted: uint256
     randomness: uint256
-    
-
 
 name: public(String[64])
 symbol: public(String[32])
-totalSupply: public(uint256)
+circulatingSupply: public(uint256)
 legendsContract: LegendsContract
 
 # The mapping of the Fortune cards
@@ -75,22 +72,21 @@ lastMinted: HashMap[address, uint256]
 
 fortuneContract: public(address)
 tributeBalance: public(uint256)
-tributeLost: public(uint256)
 tributeLostAndUnclaimed: public(uint256)
 tributeFee: public(uint256)
 
 owner: public(address)
 
 @external
-def __init__(_name: String[64], _symbol: String[32], _total_supply: uint256, legendsAddress: address, tributeFee: uint256):
+def __init__(_name: String[64], _symbol: String[32], _initial_supply: uint256, legendsAddress: address, tributeFee: uint256):
     self.name = _name
     self.symbol = _symbol
-    self.balances[msg.sender] = _total_supply
-    self.totalSupply = _total_supply
+    self.balances[msg.sender] = _initial_supply
+    self.circulatingSupply = _initial_supply
     self.legendsContract = LegendsContract(legendsAddress)
     self.owner = msg.sender
     self.tributeFee = tributeFee
-    log Transfer(empty(address), msg.sender, _total_supply)
+    log Transfer(empty(address), msg.sender, _initial_supply)
     
 
 @view
@@ -192,13 +188,13 @@ def mintFortune(to: address) -> bool:
     if self.legendsContract.balanceOf(msg.sender) > 0: # if the caller is a legend
         if self.lastMinted[msg.sender] + 3600*24 > block.timestamp: # if 24 hours passed since last mint
             raise "You can only mint once a day"
-        self.totalSupply += 1
+        self.circulatingSupply += 1
         self.balances[msg.sender] += 1
         self.lastMinted[msg.sender] = block.timestamp
         self.tributeBalance += msg.value
         self.fortunesLog[msg.sender] = FortuneCard({
             cardNumber: self.mintCount,
-            tribute: msg.value,
+            tributeAmount: msg.value,
             dateMinted: block.timestamp,
             randomness: block.prevrandao,
             }
@@ -221,18 +217,17 @@ def burnFortune() -> bool:
     assert self.balances[msg.sender] >= 1, "You dont have a fortune to burn"
     # Make sure there has passed at least 60 seconds since mint
     assert block.timestamp > currentFortune.dateMinted + 300 , "Wait at least 5 minutes to burn your fortune"
-    self.totalSupply -= 1
+    self.circulatingSupply -= 1
     self.balances[msg.sender] -= 1
 
     if ((self.balance + block.prevrandao + currentFortune.dateMinted + currentFortune.randomness + currentFortune.cardNumber) % 23) % 2 == 0:
-        reward: uint256 = currentFortune.tribute - ( currentFortune.tribute * self.tributeFee / 100)
+        reward: uint256 = currentFortune.tributeAmount - ( currentFortune.tributeAmount * self.tributeFee / 100)
         self.tributeBalance -= reward
         send(msg.sender, reward)
         log BurnFortune(msg.sender, 'GOOD')
         return True
     else:
-        reward: uint256 = currentFortune.tribute - ( currentFortune.tribute * (self.tributeFee) / 100)
-        self.tributeLost += reward
+        reward: uint256 = currentFortune.tributeAmount - ( currentFortune.tributeAmount * (self.tributeFee) / 100)
         self.tributeBalance -= reward
         send(msg.sender, reward)
         log BurnFortune(msg.sender, 'BAD')
@@ -292,7 +287,7 @@ def setOwner(new_owner:address) -> bool:
         self.owner = new_owner
         return True
     else:
-        raise "Not a Legend"
+        raise "Not the owner"
 
 @view
 @external
@@ -313,6 +308,7 @@ def withdrawLostTributes() -> bool:
     @return Success boolean
     """
     assert self.owner == msg.sender
+    assert self.balance > 0
     if self.owner == msg.sender:
         send(self.owner, self.balance)
         self.tributeBalance = 0

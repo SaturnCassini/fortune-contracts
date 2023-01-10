@@ -1,10 +1,14 @@
 import pytest
+import ape
 
 
 @pytest.fixture
 def sudo(accounts):
     return accounts[-1]
 
+@pytest.fixture
+def contracts():    
+    return ape.contracts.base.ContractEvent
 
 @pytest.fixture
 def mockedNFT(sudo, project):

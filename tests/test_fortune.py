@@ -1,6 +1,7 @@
 import pytest 
 import math
 
+
 def test_mint_nft(mockedNFT,sudo):
     mockedNFT.mintNFT(sudo, sender=sudo)
     balance = mockedNFT.balanceOf(sudo, sender=sudo)
@@ -47,7 +48,6 @@ def test_tribute_balance_changes_after_mint(mockedNFT, fortune, sudo, chain):
     
     assert int(fortune.tributeBalance()) > 0 
     print(fortune.tributeBalance())
-    assert fortune.tributeLost() > 0
 
 
 def test_transfer_fortune_and_burn_it(mockedNFT, fortune, sudo, chain, accounts):
@@ -81,7 +81,6 @@ def test_withdraw_tribute_after_fortunes_burned(mockedNFT, fortune, sudo, chain)
         chain.mine(4)
         fortune.burnFortune(sender=sudo) 
 
-    assert fortune.tributeLost() > 0
     fortune.withdrawLostTributes(sender=sudo)
     assert fortune.tributeBalance() == 0
     assert fortune.tributeLostAndUnclaimed() == 0
@@ -140,3 +139,12 @@ def test_update_fee(mockedNFT, fortune, sudo, chain):
     assert fortune.fortuneBalance(sudo) == 0
     print(fortune.tributeBalance())
     assert fortune.tributeBalance() == math.floor(mockedTribute*(newFee/100))
+
+@pytest.mark.skip('not implemented')
+def test_events_from_mints(mockedNFT, sudo,contracts, chain):
+    mockedNFT.mintNFT(sudo, sender=sudo)
+    print(dir(mockedNFT.Mint.log_filter.events.count))
+    print(mockedNFT.Mint.log_filter.events.count(5))
+    print("----")
+    print(dir(chain.network_manager))
+    assert False
