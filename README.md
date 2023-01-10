@@ -9,6 +9,13 @@ ERC20 contract for Fortune tokens of [Saturn Series](https://saturnseries.com).
 --
 
 ##  Overview
+1. Legends can mint a Fortune Card ERC20 once per day, and optionally add a tribue to their fortune. Legends can only have one Fortune Card minted at a time.
+2. The Fortune Card is transferrable
+3. The Fortune Card holder needs to wait 5 minutes to allow the blockchain to make enough randomness data and normalize potential results (this reduces the possibility of an MEV attack from happening)
+4. The holder of the Fortune Card can then burn the card. This emits an event of GOOD or BAD fortune. 
+5. If the event is GOOD, then the initially paid tribute is returned to the account that burned the Fortune card, minus a set fee. If the fortune is BAD, the funds are returned to the burner, minus the fee.
+6. The tribute chest accumulates fees over time, and that balance can be withdrawn by the owner of the contract. 
+
 The system implements one ERC20 token called FORTUNE
 The token can be minted with a cooldown of one token per day
 The token is transferrable
