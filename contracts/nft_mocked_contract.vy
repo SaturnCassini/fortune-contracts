@@ -53,7 +53,8 @@ def burnNFT(cardOwner: address):
     self.supply -= 1
     self.balances[cardOwner] -= 1
     log Burn(cardOwner)
-    
+
+@view
 @external
 def balanceOf(legend: address) -> uint256:
     """
