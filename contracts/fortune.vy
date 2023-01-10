@@ -64,7 +64,7 @@ legendsContract: LegendsContract
 # The mapping of the Fortune cards
 # The key is the address of the minter of the token
 # The value is the Fortune card's msg.value
-fortunes: HashMap[address, FortuneCard]
+fortunesLog: HashMap[address, FortuneCard]
 
 # Used to keep track of the number of Fortune cards minted
 mintCount: public(uint256)
@@ -74,20 +74,22 @@ allowances: HashMap[address, HashMap[address, uint256]]
 lastMinted: HashMap[address, uint256]
 
 fortuneContract: public(address)
-
 tributeBalance: public(uint256)
 tributeLost: public(uint256)
 tributeLostAndUnclaimed: public(uint256)
+tributeFee: public(uint256)
+
 owner: public(address)
 
 @external
-def __init__(_name: String[64], _symbol: String[32], _total_supply: uint256, legendsAddress: address):
+def __init__(_name: String[64], _symbol: String[32], _total_supply: uint256, legendsAddress: address, tributeFee: uint256):
     self.name = _name
     self.symbol = _symbol
     self.balances[msg.sender] = _total_supply
     self.totalSupply = _total_supply
     self.legendsContract = LegendsContract(legendsAddress)
     self.owner = msg.sender
+    self.tributeFee = tributeFee
     log Transfer(empty(address), msg.sender, _total_supply)
     
 
@@ -185,6 +187,8 @@ def mintFortune(to: address) -> bool:
     @param to who receives the fortune
     @return True if the caller addres is a legend
     """
+    # Make sure the minter doesnt have a fortune already
+    assert self.balances[msg.sender] == 0, "You already have a fortune card minted"
     if self.legendsContract.balanceOf(msg.sender) > 0: # if the caller is a legend
         if self.lastMinted[msg.sender] + 3600*24 > block.timestamp: # if 24 hours passed since last mint
             raise "You can only mint once a day"
@@ -192,7 +196,7 @@ def mintFortune(to: address) -> bool:
         self.balances[msg.sender] += 1
         self.lastMinted[msg.sender] = block.timestamp
         self.tributeBalance += msg.value
-        self.fortunes[msg.sender] = FortuneCard({
+        self.fortunesLog[msg.sender] = FortuneCard({
             cardNumber: self.mintCount,
             tribute: msg.value,
             dateMinted: block.timestamp,
@@ -205,7 +209,6 @@ def mintFortune(to: address) -> bool:
     else:
         raise "Not a Legend"
 
-
 @external
 def burnFortune() -> bool:
     """
@@ -214,7 +217,7 @@ def burnFortune() -> bool:
     @dev You could add an assert here to make sure the owner of the nft is the one who can burn
     @return Success boolean
     """
-    currentFortune: FortuneCard = self.fortunes[msg.sender]
+    currentFortune: FortuneCard = self.fortunesLog[msg.sender]
     assert self.balances[msg.sender] >= 1, "You dont have a fortune to burn"
     # Make sure there has passed at least 60 seconds since mint
     assert block.timestamp > currentFortune.dateMinted + 300 , "Wait at least 5 minutes to burn your fortune"
@@ -223,13 +226,25 @@ def burnFortune() -> bool:
 
     if ((self.balance + block.prevrandao + currentFortune.dateMinted + currentFortune.randomness + currentFortune.cardNumber) % 23) % 2 == 0:
         self.tributeBalance -= currentFortune.tribute
-        send(msg.sender, currentFortune.tribute)
+        reward: uint256 = currentFortune.tribute - ( currentFortune.tribute * self.tributeFee / 100)
+        send(msg.sender, reward)
         log BurnFortune(msg.sender, 'GOOD')
         return True
     else:
         self.tributeLost += currentFortune.tribute
+        reward: uint256 = currentFortune.tribute - ( currentFortune.tribute * (self.tributeFee*2) / 100)
+        send(msg.sender, reward)
         log BurnFortune(msg.sender, 'BAD')
         return False
+
+@view
+@external
+def cardOwnedBy(legend:address)-> uint256:
+    """
+    @notice Getter to check the current cardNumber of an address
+    @dev this is not yet tested and should be used with caution
+    """
+    return self.fortunesLog[legend].cardNumber
 
 @view
 @external

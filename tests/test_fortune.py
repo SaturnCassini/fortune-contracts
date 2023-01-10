@@ -84,3 +84,42 @@ def test_withdraw_tribute_after_fortunes_burned(mockedNFT, fortune, sudo, chain)
     fortune.withdrawLostTributes(sender=sudo)
     assert fortune.tributeBalance() == 0
     assert fortune.tributeLostAndUnclaimed() == 0
+
+def test_minting_twice_should_revert(mockedNFT, fortune, sudo, chain):
+    tribute=32332
+    mockedNFT.mintNFT(sudo, sender=sudo)
+    fortune.mintFortune(sudo, value=tribute, sender=sudo)
+    assert fortune.tributeBalance() == tribute
+    chain.pending_timestamp += 60*6
+    chain.mine(4)
+    assert fortune.fortuneBalance(sudo) == 1
+    with pytest.raises(Exception):
+        fortune.mintFortune(sudo, sender=sudo)
+
+def test_winning_still_uses_funds(mockedNFT, fortune, sudo, chain):
+    mockedNFT.mintNFT(sudo, sender=sudo)
+    fortune.mintFortune(sudo, sender=sudo, value=10000)
+    assert fortune.fortuneBalance(sudo) == 1
+    assert fortune.tributeBalance() > 0
+    chain.pending_timestamp += 60*6
+    chain.mine(4)
+    fortune.burnFortune(sender=sudo)
+    assert fortune.fortuneBalance(sudo) == 0
+    
+def test_minting_multiple_increases_card_number(mockedNFT, fortune, sudo, chain):
+    mockedNFT.mintNFT(sudo, sender=sudo)
+    tribute = 123212
+    loops = 5
+    for i in range(loops):
+        print(i)
+        fortune.mintFortune(sudo, sender=sudo, value=tribute)
+        #Mints only once
+        assert fortune.fortuneBalance(sudo) == 1 
+        # Fast forward 1 day to be able to burn and mint again
+        chain.pending_timestamp += 3600*25
+        chain.mine(4)
+        fortune.burnFortune(sender=sudo)
+        assert fortune.fortuneBalance(sudo) == 0
+
+    assert fortune.cardOwnedBy(sudo) == loops-1
+
