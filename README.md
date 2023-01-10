@@ -32,9 +32,9 @@ Activate the environmante
 Change directories
 `cd contracts`
 
-# Test
+# Installation
+`ape plugins install .` install the dependencies listed in the ape-config.yaml
 `ape test`
 
 # Compile
-`ape plugins install vyper`
 `ape compile`
