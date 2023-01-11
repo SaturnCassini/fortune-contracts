@@ -8,7 +8,7 @@ def test_mint_nft(mockedNFT,sudo):
     print(balance)
     assert balance == 1
 
-def test_fortune(fortune, sudo):
+def test_mint_fortune(fortune, sudo):
     # Should not allow you to mint if youre not a legend
     with pytest.raises(Exception):
         fortune.mintFortune(sudo, sender=sudo)
@@ -71,9 +71,10 @@ def test_withdraw_tribute_after_fortunes_burned(mockedNFT, fortune, sudo, chain)
 
     tribute = 123123
     for i in range(3):
-        # Time travel 24 hours
+        # Time travel 25 hours
         chain.pending_timestamp += 3600*25
         chain.mine(4)
+    
         fortune.mintFortune(sudo, sender=sudo, value=tribute)
         assert fortune.fortuneBalance(sudo) == 1
         assert fortune.tributeBalance() > 0
@@ -123,7 +124,6 @@ def test_minting_multiple_increases_card_number(mockedNFT, fortune, sudo, chain)
 
     assert fortune.currentCardIdFrom(sudo) == loops-1
 
-# @pytest.mark.skip('fails sometimes if the outcome is positive')
 def test_update_fee(mockedNFT, fortune, sudo, chain):
     newFee = 10
     mockedTribute = 2222
@@ -140,11 +140,26 @@ def test_update_fee(mockedNFT, fortune, sudo, chain):
     print(fortune.tributeBalance())
     assert fortune.tributeBalance() == math.floor(mockedTribute*(newFee/100))
 
-@pytest.mark.skip('not implemented')
-def test_events_from_mints(mockedNFT, sudo,contracts, chain):
-    mockedNFT.mintNFT(sudo, sender=sudo)
-    print(dir(mockedNFT.Mint.log_filter.events.count))
-    print(mockedNFT.Mint.log_filter.events.count(5))
-    print("----")
-    print(dir(chain.network_manager))
+def test_events_from_nft_mints(mockedNFT, sudo):
+    for i in range(5):
+        mockedNFT.mintNFT(sudo, sender=sudo)
+    
+    for new_log in mockedNFT.Mint.range(start_or_stop=0, stop=6):
+        print(f"New event log found: block_number={new_log.block_number}")
+        print(new_log.event_arguments)
+
+    assert False
+
+def test_events_from_fortune_burns(mockedNFT, sudo, fortune, chain):
+    for i in range(10):
+        mockedNFT.mintNFT(sudo, sender=sudo)
+        fortune.mintFortune(sudo, sender=sudo)
+        chain.pending_timestamp += 3600*25
+        chain.mine(4)
+        fortune.burnFortune(sender=sudo)
+    
+    for new_log in fortune.BurnFortune.range(start_or_stop=0, stop=100):
+        print(f"New event log found: block_number={new_log.block_number}")
+        print(new_log.event_arguments)
+
     assert False
