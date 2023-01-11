@@ -143,12 +143,13 @@ def test_update_fee(mockedNFT, fortune, sudo, chain):
 def test_events_from_nft_mints(mockedNFT, sudo):
     for i in range(5):
         mockedNFT.mintNFT(sudo, sender=sudo)
-    
-    for new_log in mockedNFT.Mint.range(start_or_stop=0, stop=6):
+    logs = []
+    for new_log in mockedNFT.Mint.range(start_or_stop=0, stop=10):
         print(f"New event log found: block_number={new_log.block_number}")
         print(new_log.event_arguments)
+        logs.append(new_log.event_arguments)
 
-    assert False
+    assert len(logs) == 5
 
 def test_events_from_fortune_burns(mockedNFT, sudo, fortune, chain):
     for i in range(10):
@@ -158,8 +159,11 @@ def test_events_from_fortune_burns(mockedNFT, sudo, fortune, chain):
         chain.mine(4)
         fortune.burnFortune(sender=sudo)
     
+    results = []
     for new_log in fortune.BurnFortune.range(start_or_stop=0, stop=100):
         print(f"New event log found: block_number={new_log.block_number}")
-        print(new_log.event_arguments)
+        print(new_log.event_arguments['value'])
+        results.append(new_log.event_arguments['value'])
 
-    assert False
+    assert 'GOOD' in results
+    assert 'BAD' in results
