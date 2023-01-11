@@ -73,8 +73,8 @@ lastMinted: HashMap[address, uint256]
 
 fortuneContract: public(address)
 tributeBalance: public(uint256)
-tributeLostAndUnclaimed: public(uint256)
 tributeFee: public(uint256)
+feesBalance: public(uint256)
 
 owner: public(address)
 
@@ -193,7 +193,8 @@ def mintFortune(to: address) -> bool:
             self.circulatingSupply += 1                              #      increase circulating supply
             self.balances[msg.sender] += 1                           #      add fortune to the minter hashmap
             self.lastMinted[msg.sender] = block.timestamp            #      update last minted of the minter hashmap
-            self.tributeBalance += msg.value                         #      add the tribute to the contract  
+            self.tributeBalance += msg.value * (100-self.tributeFee) / 100  # add the tribute to the tribute balance   
+            self.feesBalance = msg.value * self.tributeFee/100     #      add the fees to feesBalance  
             self.fortunesLog[msg.sender] = FortuneCard({             #      add the fortune to the log hashmap
                 cardNumber: self.mintCount,                          #      the mint count is the card number
                 tributeAmount: msg.value,                            #      the tribute is in ehter, equal to the amount in the msg.value  
@@ -227,15 +228,14 @@ def burnFortune():
     # This seed also includes the block's prevrandao (see: -> https://eips.ethereum.org/EIPS/eip-4399#security-considerations)
     # Then it divides by 2087 which is a prime number, and checks if the remainder is even or odd
     # If even, the fortune is good, if odd, the fortune is bad
+    reward: uint256 = currentFortune.tributeAmount - ( currentFortune.tributeAmount * (100-self.tributeFee) / 100)
     if (( self.balance + block.prevrandao + currentFortune.dateMinted + currentFortune.randomness + currentFortune.cardNumber) % 2087) % 2 == 0:
         # If the fortune is good, the reward is the tribute minus the fee
-        reward: uint256 = currentFortune.tributeAmount - ( currentFortune.tributeAmount * self.tributeFee / 100)
         self.tributeBalance -= reward                               # remove the reward from the tribute balance
         send(msg.sender, reward)                                    # send the reward to the caller
         log BurnFortune(msg.sender, 'GOOD', currentFortune)         # emit the event and log the good fortune burn
     else:
         # If the fortune is bad, the reward is the tribute minus the fee
-        reward: uint256 = currentFortune.tributeAmount - ( currentFortune.tributeAmount * (self.tributeFee) / 100)
         self.tributeBalance -= reward                               # remove the reward from the tribute balance
         send(msg.sender, reward)                                    # send the reward to the caller
         log BurnFortune(msg.sender, 'BAD', currentFortune)          # emit the event and log the bad fortune burn
@@ -295,22 +295,12 @@ def setOwner(new_owner:address) -> bool:
     else:
         raise "Not the owner"           # if the caller is not the owner, raise error
 
-@view
-@external
-def getUnclaimedLostTribute()-> uint256:
-    """
-    @notice Getter to check the current ETH balance of the fortune chest that has been lost and unclaimed
-    @dev    this is not yet tested and should be used with caution
-    @return ETH balance
-    """
-    return self.tributeLostAndUnclaimed
 
 @external
 def rugPull() -> bool:
     """
-    @notice Withdraw the ETH from the fortune chest
+    @notice Withdraw all the ETH from the fortune chest
     @dev    this is not yet tested and should be used with caution
-    @dev    You could add an assert here to make sure the owner of the nft is the one who can burn
     @return Success boolean
     """
     assert self.owner == msg.sender
@@ -318,11 +308,26 @@ def rugPull() -> bool:
     if self.owner == msg.sender:
         send(self.owner, self.balance)
         self.tributeBalance = 0
-        self.tributeLostAndUnclaimed = 0
         return True
     else:
         raise "Not the contract Owner"
 
+
+@external
+def withdrawFees() -> bool:
+    """
+    @notice Withdraw all the fees from the fortune chest
+    @dev    this is not yet tested and should be used with caution
+    @return Success boolean
+    """
+    assert self.owner == msg.sender
+    assert self.tributeBalance > 0
+    if self.owner == msg.sender:
+        send(self.owner, self.feesBalance)
+        self.feesBalance = 0
+        return True
+    else:
+        raise "Not the contract Owner"
 
 @external
 def setTributeFee(percentage: uint256)-> bool:

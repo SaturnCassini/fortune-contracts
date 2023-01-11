@@ -7,6 +7,10 @@ def sudo(accounts):
     return accounts[-1]
 
 @pytest.fixture
+def dev(accounts):
+    return accounts[1]
+
+@pytest.fixture
 def contracts():    
     return ape.contracts.base.ContractEvent
 

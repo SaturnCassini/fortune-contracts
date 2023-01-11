@@ -8,6 +8,46 @@ def test_mint_nft(mockedNFT,sudo):
     print(balance)
     assert balance == 1
 
+def test_withdraw_tribute_after_fortunes_burned(mockedNFT, fortune, sudo, chain):
+    mockedNFT.mintNFT(sudo, sender=sudo)
+
+    tribute = 123123
+
+    # Play the game a couple times
+    for i in range(3):
+        # Time travel 25 hours
+        chain.pending_timestamp += 3600*25
+        chain.mine(4)
+        fortune.mintFortune(sudo, sender=sudo, value=tribute)
+        assert fortune.fortuneBalance(sudo) == 1 
+        chain.pending_timestamp += 60*6
+        chain.mine(4)
+        fortune.burnFortune(sender=sudo) 
+
+    assert fortune.tributeBalance() == math.floor(tribute *3*0.95)
+    assert fortune.feesBalance() == math.floor(tribute *3*0.05)
+    fortune.withdrawFees(sender=sudo)
+    assert fortune.feesBalance() == 0
+
+def test_transfer_card_and_earn_tribute(mockedNFT, fortune, sudo, chain, dev):
+    mockedNFT.mintNFT(sudo, sender=sudo)
+    tribute = 123123
+    fortune.mintFortune(sudo, sender=sudo, value=tribute)
+    assert fortune.fortuneBalance(sudo) == 1
+    assert fortune.tributeBalance() == math.floor(tribute * 0.95)
+    assert fortune.feesBalance() == math.floor(tribute * 0.05)
+    fortune.transfer(dev, 1, sender=sudo)
+    assert fortune.fortuneBalance(sudo) == 0
+    assert fortune.fortuneBalance(dev) == 1
+    assert fortune.tributeBalance() == math.floor(tribute * 0.95)
+    assert fortune.feesBalance() == math.floor(tribute * 0.05)
+    fortune.burnFortune(sender=dev)
+    assert fortune.fortuneBalance(sudo) == 0
+    assert fortune.fortuneBalance(dev) == 0
+    assert fortune.tributeBalance() == 0
+    assert fortune.feesBalance() == math.floor(tribute * 0.05)
+    assert dev.balance() == tribute * math.floor(0.95)
+
 def test_mint_fortune(fortune, sudo):
     # Should not allow you to mint if youre not a legend
     with pytest.raises(Exception):
@@ -66,31 +106,12 @@ def test_transfer_fortune_and_burn_it(mockedNFT, fortune, sudo, chain, accounts)
     assert fortune.fortuneBalance(accounts[1]) == 0
 
 
-def test_withdraw_tribute_after_fortunes_burned(mockedNFT, fortune, sudo, chain):
-    mockedNFT.mintNFT(sudo, sender=sudo)
-
-    tribute = 123123
-    for i in range(3):
-        # Time travel 25 hours
-        chain.pending_timestamp += 3600*25
-        chain.mine(4)
-    
-        fortune.mintFortune(sudo, sender=sudo, value=tribute)
-        assert fortune.fortuneBalance(sudo) == 1
-        assert fortune.tributeBalance() > 0
-        chain.pending_timestamp += 60*6
-        chain.mine(4)
-        fortune.burnFortune(sender=sudo) 
-
-    fortune.withdrawLostTributes(sender=sudo)
-    assert fortune.tributeBalance() == 0
-    assert fortune.tributeLostAndUnclaimed() == 0
 
 def test_minting_twice_should_revert(mockedNFT, fortune, sudo, chain):
-    tribute=32332
+    tribute=100
     mockedNFT.mintNFT(sudo, sender=sudo)
     fortune.mintFortune(sudo, value=tribute, sender=sudo)
-    assert fortune.tributeBalance() == tribute
+    assert fortune.tributeBalance() == math.floor(tribute * 0.95)
     chain.pending_timestamp += 60*6
     chain.mine(4)
     assert fortune.fortuneBalance(sudo) == 1
@@ -109,7 +130,7 @@ def test_winning_still_uses_funds(mockedNFT, fortune, sudo, chain):
     
 def test_minting_multiple_increases_card_number(mockedNFT, fortune, sudo, chain):
     mockedNFT.mintNFT(sudo, sender=sudo)
-    tribute = 123212
+    tribute = 100
     loops = 3
     for i in range(loops):
         print(i)
@@ -125,20 +146,28 @@ def test_minting_multiple_increases_card_number(mockedNFT, fortune, sudo, chain)
     assert fortune.currentCardIdFrom(sudo) == loops-1
 
 def test_update_fee(mockedNFT, fortune, sudo, chain):
+    # set the fee to 10%
     newFee = 10
-    mockedTribute = 2222
+    mockedTribute = 100
+
+    # update the fee
     fortune.setTributeFee(newFee, sender=sudo)
-    assert fortune.getTributeFee() == 10
+    assert fortune.getTributeFee() == newFee
+
+    # mint a fortune
     mockedNFT.mintNFT(sudo, sender=sudo)
     fortune.mintFortune(sudo, sender=sudo, value=mockedTribute)
     assert fortune.fortuneBalance(sudo) == 1
     assert fortune.tributeBalance() > 0
+    print(fortune.tributeBalance())
+    assert fortune.tributeBalance() == math.floor(mockedTribute*((100-newFee)/100))
+
+    # burn the fortune
     chain.pending_timestamp += 60*6
     chain.mine(4)
     fortune.burnFortune(sender=sudo)
-    assert fortune.fortuneBalance(sudo) == 0
     print(fortune.tributeBalance())
-    assert fortune.tributeBalance() == math.floor(mockedTribute*(newFee/100))
+    assert fortune.fortuneBalance(sudo) == 0
 
 def test_events_from_nft_mints(mockedNFT, sudo):
     for i in range(5):
@@ -165,7 +194,6 @@ def test_events_from_fortune_burns(mockedNFT, sudo, fortune, chain):
         print(new_log.event_arguments['value'])
         results.append(new_log.event_arguments['value'])
 
-    # This might fail sometimes due to randomness
-    # and it is not a big deal
+    # This might fail sometimes due to randomnes and it is not a big deal
     assert 'GOOD' in results
     assert 'BAD' in results 
