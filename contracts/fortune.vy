@@ -45,6 +45,7 @@ event MintFortune:
 event BurnFortune:
     legend: indexed(address)
     value: String[4]
+    fortune: FortuneCard
 
 # The Fortune card is an ERC20 token that is tied to the value of the tribute it was minted with
 struct FortuneCard:
@@ -94,7 +95,7 @@ def __init__(_name: String[64], _symbol: String[32], _initial_supply: uint256, l
 def fortuneBalance(_owner: address) -> uint256:
     """
     @notice Getter to check the current balance of an address
-    @param _owner Address to query the balance of
+    @param  _owner Address to query the balance of
     @return Token balance
     """
     return self.balances[_owner]
@@ -105,8 +106,8 @@ def fortuneBalance(_owner: address) -> uint256:
 def allowance(_owner : address, _spender : address) -> uint256:
     """
     @notice Getter to check the amount of tokens that an owner allowed to a spender
-    @param _owner The address which owns the funds
-    @param _spender The address which will spend the funds
+    @param  _owner The address which owns the funds
+    @param  _spender The address which will spend the funds
     @return The amount of tokens still available for the spender
     """
     return self.allowances[_owner][_spender]
@@ -116,12 +117,12 @@ def allowance(_owner : address, _spender : address) -> uint256:
 def approve(_spender : address, _value : uint256) -> bool:
     """
     @notice Approve an address to spend the specified amount of tokens on behalf of msg.sender
-    @dev Beware that changing an allowance with this method brings the risk that someone may use both the old
-         and the new allowance by unfortunate transaction ordering. One possible solution to mitigate this
-         race condition is to first reduce the spender's allowance to 0 and set the desired value afterwards:
-         https://github.com/ethereum/EIPs/issues/20#issuecomment-263524729
-    @param _spender The address which will spend the funds.
-    @param _value The amount of tokens to be spent.
+    @dev    Beware that changing an allowance with this method brings the risk that someone may use both the old
+            and the new allowance by unfortunate transaction ordering. One possible solution to mitigate this
+            race condition is to first reduce the spender's allowance to 0 and set the desired value afterwards:
+            https://github.com/ethereum/EIPs/issues/20#issuecomment-263524729
+    @param  _spender The address which will spend the funds.
+    @param  _value The amount of tokens to be spent.
     @return Success boolean
     """
     self.allowances[msg.sender][_spender] = _value
@@ -132,10 +133,10 @@ def approve(_spender : address, _value : uint256) -> bool:
 @internal
 def _transfer(_from: address, _to: address, _value: uint256):
     """
-    @dev Internal shared logic for transfer and transferFrom
-    @param _from The address which you want to send tokens from
-    @param _to The address which you want to transfer to
-    @param _value The amount of tokens to be transferred
+    @dev    Internal shared logic for transfer and transferFrom
+    @param  _from The address which you want to send tokens from
+    @param  _to The address which you want to transfer to
+    @param  _value The amount of tokens to be transferred
     """
     assert self.balances[_from] >= _value, "Insufficient balance"
     self.balances[_from] -= _value
@@ -147,10 +148,10 @@ def _transfer(_from: address, _to: address, _value: uint256):
 def transfer(_to : address, _value : uint256) -> bool:
     """
     @notice Transfer tokens to a specified address
-    @dev Vyper does not allow underflows, so attempting to transfer more
-         tokens than an account has will revert
-    @param _to The address to transfer to
-    @param _value The amount to be transferred
+    @dev    Vyper does not allow underflows, so attempting to transfer more
+            tokens than an account has will revert
+    @param  _to The address to transfer to
+    @param  _value The amount to be transferred
     @return Success boolean
     """
     self._transfer(msg.sender, _to, _value)
@@ -161,11 +162,11 @@ def transfer(_to : address, _value : uint256) -> bool:
 def transferFrom(_from : address, _to : address, _value : uint256) -> bool:
     """
     @notice Transfer tokens from one address to another
-    @dev Vyper does not allow underflows, so attempting to transfer more
-         tokens than an account has will revert
-    @param _from The address which you want to send tokens from
-    @param _to The address which you want to transfer to
-    @param _value The amount of tokens to be transferred
+    @dev    Vyper does not allow underflows, so attempting to transfer more
+            tokens than an account has will revert
+    @param  _from The address which you want to send tokens from
+    @param  _to The address which you want to transfer to
+    @param  _value The amount of tokens to be transferred
     @return Success boolean
     """
     assert self.allowances[_from][msg.sender] >= _value, "Insufficient allowance"
@@ -178,68 +179,73 @@ def transferFrom(_from : address, _to : address, _value : uint256) -> bool:
 def mintFortune(to: address) -> bool:
     """
     @notice Mint a fortune to an specified address which holds the nft
-    @dev this is not yet tested and should be used with caution
-    @dev You could add an assert here to make sure the owner of the nft is the one who can mint
-    @param to who receives the fortune
+    @dev    this is not yet tested and should be used with caution
+    @dev    You could add an assert here to make sure the owner of the nft is the one who can mint
+    @param  to who receives the fortune
     @return True if the caller addres is a legend
     """
     # Make sure the minter doesnt have a fortune already
-    assert self.balances[msg.sender] == 0, "You already have a fortune card minted"
-    if self.legendsContract.balanceOf(msg.sender) > 0: # if the caller is a legend
-        if self.lastMinted[msg.sender] + 3600*24 > block.timestamp: # if less 24 hours passed since last mint
-            raise "You can only mint once a day" #raise error
-        else: #mint the fortune
-            self.circulatingSupply += 1
-            self.balances[msg.sender] += 1
-            self.lastMinted[msg.sender] = block.timestamp
-            self.tributeBalance += msg.value
-            self.fortunesLog[msg.sender] = FortuneCard({
-                cardNumber: self.mintCount,
-                tributeAmount: msg.value,
-                dateMinted: block.timestamp,
-                randomness: block.prevrandao,
+    assert self.balances[msg.sender] == 0, "First burn your current fortune"
+    if self.legendsContract.balanceOf(msg.sender) > 0:               # if the caller is a legend
+        if self.lastMinted[msg.sender] + 3600*24 > block.timestamp:  # and if less 24 hours passed since last mint
+            raise "You can only mint once a day"                     #     then raise error
+        else:                                                        # else mint the fortune...
+            self.circulatingSupply += 1                              #      increase circulating supply
+            self.balances[msg.sender] += 1                           #      add fortune to the minter hashmap
+            self.lastMinted[msg.sender] = block.timestamp            #      update last minted of the minter hashmap
+            self.tributeBalance += msg.value                         #      add the tribute to the contract  
+            self.fortunesLog[msg.sender] = FortuneCard({             #      add the fortune to the log hashmap
+                cardNumber: self.mintCount,                          #      the mint count is the card number
+                tributeAmount: msg.value,                            #      the tribute is in ehter, equal to the amount in the msg.value  
+                dateMinted: block.timestamp,                         #      the date minted is the current block timestamp
+                randomness: block.prevrandao,                        #      <--- ! The randomness is the previous block randao, this helps MEV protection
                 }
             )
-            self.mintCount += 1
-            log MintFortune(msg.sender, 1)
-            return True
+            self.mintCount += 1                                      #      increase the mint count                  
+            log MintFortune(msg.sender, 1)                           #      emit the event and log the mint
+            return True                                              #      return true
     else:
-        raise "Not a Legend"
+        raise "Not a Legend"                                         # if the caller is not a legend, raise error               
 
 @external
-def burnFortune() -> bool:
+def burnFortune():
     """
     @notice Burn a fortune from an specified address
-    @dev this is not yet tested and should be used with caution
-    @dev You could add an assert here to make sure the owner of the nft is the one who can burn
-    @return Success boolean
+    @dev    this is not yet tested and should be used with caution
+    @dev    You could add an assert here to make sure the owner of the nft is the one who can burn
     """
     currentFortune: FortuneCard = self.fortunesLog[msg.sender]
     assert self.balances[msg.sender] >= 1, "You dont have a fortune to burn"
-    # Make sure there has passed at least 60 seconds since mint
     assert block.timestamp > currentFortune.dateMinted + 300 , "Wait at least 5 minutes to burn your fortune"
     self.circulatingSupply -= 1
     self.balances[msg.sender] -= 1
 
-    if ((self.balance + block.prevrandao + currentFortune.dateMinted + currentFortune.randomness + currentFortune.cardNumber) % 23) % 2 == 0:
+    # Check if the fortune is good or bad
+    
+    # This is the randomness function that will decide if the fortune is good or bad
+    # It takes various internal properties of the contract and the block and adds them together to generate a random seed
+    # This seed also includes the block's prevrandao (see: -> https://eips.ethereum.org/EIPS/eip-4399#security-considerations)
+    # Then it divides by 2087 which is a prime number, and checks if the remainder is even or odd
+    # If even, the fortune is good, if odd, the fortune is bad
+    if (( self.balance + block.prevrandao + currentFortune.dateMinted + currentFortune.randomness + currentFortune.cardNumber) % 2087) % 2 == 0:
+        # If the fortune is good, the reward is the tribute minus the fee
         reward: uint256 = currentFortune.tributeAmount - ( currentFortune.tributeAmount * self.tributeFee / 100)
-        self.tributeBalance -= reward
-        send(msg.sender, reward)
-        log BurnFortune(msg.sender, 'GOOD')
-        return True
+        self.tributeBalance -= reward                               # remove the reward from the tribute balance
+        send(msg.sender, reward)                                    # send the reward to the caller
+        log BurnFortune(msg.sender, 'GOOD', currentFortune)         # emit the event and log the good fortune burn
     else:
+        # If the fortune is bad, the reward is the tribute minus the fee
         reward: uint256 = currentFortune.tributeAmount - ( currentFortune.tributeAmount * (self.tributeFee) / 100)
-        self.tributeBalance -= reward
-        send(msg.sender, reward)
-        log BurnFortune(msg.sender, 'BAD')
-        return False
+        self.tributeBalance -= reward                               # remove the reward from the tribute balance
+        send(msg.sender, reward)                                    # send the reward to the caller
+        log BurnFortune(msg.sender, 'BAD', currentFortune)          # emit the event and log the bad fortune burn
 
 @view
 @external
 def currentCardIdFrom(legend:address)-> uint256:
     """
     @notice Getter to check the current cardNumber of an address
-    @dev this is not yet tested and should be used with caution
+            This is useful because legends can only have one fortune at a time
     """
     return self.fortunesLog[legend].cardNumber
 
@@ -248,7 +254,7 @@ def currentCardIdFrom(legend:address)-> uint256:
 def getLegendBalance() -> uint256:
     """
     @notice Getter to check the current balance of an address
-    @dev this is not yet tested and should be used with caution
+    @dev    this is not yet tested and should be used with caution
     """
     legends: LegendsContract = self.legendsContract
     return legends.balanceOf(msg.sender)
@@ -258,54 +264,53 @@ def getLegendBalance() -> uint256:
 def getFortuneChestBalance() -> uint256:
     """
     @notice Getter to check the current ETH balance of the fortune chest
-    @dev this is not yet tested and should be used with caution
+    @dev    This is not yet tested and should be used with caution
     @return ETH balance
     """
     return self.balance
 
 # Admin functions
 
+@view
 @external
 def currentOwner() -> address:
     """
     @notice Getter to check the current owner of the fortune chest
-    @dev this is not yet tested and should be used with caution    
     """
-    
     return self.owner 
     
 @external
 def setOwner(new_owner:address) -> bool:
     """
     @notice Setter to set the owner of the fortune chest
-    @dev this is not yet tested and should be used with caution
-    @dev You could add an assert here to make sure the owner of the nft is the one who can burn
-    @param new_owner The address that will be the new owner of the contract
+    @dev    this is not yet tested and should be used with caution
+    @dev    You could add an assert here to make sure the owner of the nft is the one who can burn
+    @param  new_owner The address that will be the new owner of the contract
     @return Success boolean
     """
-    assert self.owner == msg.sender
-    if self.owner == msg.sender:
-        self.owner = new_owner
+    assert self.owner == msg.sender     # make sure the caller is the owner
+    if self.owner == msg.sender:        
+        self.owner = new_owner          # set the new owner
         return True
     else:
-        raise "Not the owner"
+        raise "Not the owner"           # if the caller is not the owner, raise error
 
 @view
 @external
 def getUnclaimedLostTribute()-> uint256:
     """
     @notice Getter to check the current ETH balance of the fortune chest that has been lost and unclaimed
-    @dev this is not yet tested and should be used with caution
+    @dev    this is not yet tested and should be used with caution
     @return ETH balance
     """
     return self.tributeLostAndUnclaimed
 
 @external
-def withdrawLostTributes() -> bool:
+def rugPull() -> bool:
     """
     @notice Withdraw the ETH from the fortune chest
-    @dev this is not yet tested and should be used with caution
-    @dev You could add an assert here to make sure the owner of the nft is the one who can burn
+    @dev    this is not yet tested and should be used with caution
+    @dev    You could add an assert here to make sure the owner of the nft is the one who can burn
     @return Success boolean
     """
     assert self.owner == msg.sender
@@ -323,24 +328,24 @@ def withdrawLostTributes() -> bool:
 def setTributeFee(percentage: uint256)-> bool:
     """
     @notice Setter to set the tribute fee
-    @dev this is not yet tested and should be used with caution
-    @dev You could add an assert here to make sure the owner of the nft is the one who can burn
-    @param percentage The percentage of the tribute that will be taken
+    @dev    this is not yet tested and should be used with caution
+    @dev    You could add an assert here to make sure the owner of the nft is the one who can burn
+    @param  percentage The percentage of the tribute that will be taken
     @return Success boolean
     """
-    assert self.owner == msg.sender
-    if self.owner == msg.sender:
-        self.tributeFee = percentage
+    assert self.owner == msg.sender   # only the owner can set the fee
+    if self.owner == msg.sender:      # double check, only the owner can set the fee
+        assert percentage <= 10       # the fee cannot be more than 10% ever
+        self.tributeFee = percentage  # set the fee
         return True
     else:
-        raise "Not the contract Owner"
+        raise "Not the contract Owner" # if somehow the caller is not the owner, raise error
 
 @view
 @external
 def getTributeFee()-> uint256:
     """
     @notice Getter to check the current tribute fee
-    @dev this is not yet tested and should be used with caution
     @return tribute fee
     """
     return self.tributeFee
