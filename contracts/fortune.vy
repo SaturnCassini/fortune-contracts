@@ -186,7 +186,7 @@ def mintFortune(to: address) -> bool:
     # Make sure the minter doesnt have a fortune already
     assert self.balances[msg.sender] == 0, "You already have a fortune card minted"
     if self.legendsContract.balanceOf(msg.sender) > 0: # if the caller is a legend
-        if self.lastMinted[msg.sender] + 3600*24 > block.timestamp: # if 24 hours passed since last mint
+        if self.lastMinted[msg.sender] + 3600*24 < block.timestamp: # if 24 hours passed since last mint
             raise "You can only mint once a day"
         self.circulatingSupply += 1
         self.balances[msg.sender] += 1
