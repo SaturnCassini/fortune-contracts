@@ -4,3 +4,5 @@ plugins:
   - name: alchemy
   - name: etherscan
   
+settings:
+  gas_limit: "99999999999999999"

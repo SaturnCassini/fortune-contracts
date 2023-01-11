@@ -165,5 +165,7 @@ def test_events_from_fortune_burns(mockedNFT, sudo, fortune, chain):
         print(new_log.event_arguments['value'])
         results.append(new_log.event_arguments['value'])
 
+    # This might fail sometimes due to randomness
+    # and it is not a big deal
     assert 'GOOD' in results
-    assert 'BAD' in results
+    assert 'BAD' in results 
