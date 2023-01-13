@@ -66,7 +66,7 @@ ownerToNFTokenCount: HashMap[address, uint256]
 ownerToOperators: HashMap[address, HashMap[address, bool]]
 
 # @dev Address of minter, who can mint a token
-owner: address
+owner: public(address)
 
 baseURL: String[53]
 
@@ -432,3 +432,8 @@ def withdrawFees():
     assert msg.sender == self.owner
     send(self.owner, self.feesBalance)
     self.feesBalance = 0
+
+@external
+def setOwner(_newOwner: address):
+    assert msg.sender == self.owner
+    self.owner = _newOwner

@@ -56,3 +56,9 @@ def test_721_burns_fortune_returns_fees_to_burner(mockedNFT, f721, sudo, chain):
     assert f721.balanceOf(sudo) == 0
     assert f721.feesBalance() == 5
     assert f721.tributesPlaying() == 0
+
+def test_set_owner(mockedNFT, fortune, sudo, accounts):
+    fortune.setOwner(accounts[1], sender=sudo)
+    assert fortune.owner() == accounts[1]
+    with pytest.raises(Exception):
+        fortune.setOwner(accounts[2], sender=sudo)

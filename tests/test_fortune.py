@@ -206,3 +206,8 @@ def test_events_from_fortune_burns(mockedNFT, sudo, fortune, chain):
     # This might fail sometimes due to randomnes and it is not a big deal
     assert 'GOOD' in results
     assert 'BAD' in results 
+
+
+def test_set_owner(mockedNFT, fortune, sudo, accounts):
+    fortune.setOwner(accounts[1], sender=sudo)
+    assert fortune.owner() == accounts[1]
