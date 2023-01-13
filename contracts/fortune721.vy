@@ -364,24 +364,27 @@ def mintFortune(_to: address) -> bool:
     tokenId:uint256 = self.fortunesMinted + 1
     # Throws if `msg.sender` is not the owner
     assert msg.sender == self.owner
-    if self.lastMintedDate[msg.sender] + 3600*24 > block.timestamp:  # and if less 24 hours passed since last mint
-        raise "You can only mint once a day"                     #     then raise error
-    else:   # Throws if `_to` is zero address
-        assert _to != empty(address)
-        # Add NFT. Throws if `_tokenId` is owned by someone
-        self._addTokenTo(_to, tokenId)
-        self.lastMintedDate[msg.sender] = block.timestamp
-        self.fortunesRegistry[tokenId] = FortuneCard({
-            tribute: msg.value,
-            mintedDate: block.timestamp,
-            mintedBlock: block.number,
-            randomness: block.prevrandao
-        })
-        self.fortunesMinted += 1
-        self.feesBalance += fees
-        self.tributesPlaying += msg.value - fees
-        log Transfer(empty(address), _to, tokenId)
-        return True
+    if self.legendsContract.balanceOf(msg.sender) > 0:  
+        if self.lastMintedDate[msg.sender] + 3600*24 > block.timestamp:  # and if less 24 hours passed since last mint
+            raise "You can only mint once a day"                     #     then raise error
+        else:   # Throws if `_to` is zero address
+            assert _to != empty(address)
+            # Add NFT. Throws if `_tokenId` is owned by someone
+            self._addTokenTo(_to, tokenId)
+            self.lastMintedDate[msg.sender] = block.timestamp
+            self.fortunesRegistry[tokenId] = FortuneCard({
+                tribute: msg.value,
+                mintedDate: block.timestamp,
+                mintedBlock: block.number,
+                randomness: block.prevrandao
+            })
+            self.fortunesMinted += 1
+            self.feesBalance += fees
+            self.tributesPlaying += msg.value - fees
+            log Transfer(empty(address), _to, tokenId)
+            return True
+    else:
+        raise "Not a legend"
 
 
 @external
