@@ -78,15 +78,37 @@ SUPPORTED_INTERFACES: constant(bytes4[2]) = [
     0x80ac58cd,
 ]
 
+# Custom functionality 
+interface LegendsContract:
+    def balanceOf(_owner: address) -> uint256: view
+
+struct FortuneCard:
+    tribute: uint256
+    mintedDate: uint256
+    mintedBlock: uint256
+    randomness: uint256
+
+legendsContract: LegendsContract
+
+fortunesMinted: public(uint256)
+fortunesRegistry: HashMap[uint256, FortuneCard]
+
 lastMintedDate: HashMap[address, uint256]
+tributesPlaying: public(uint256)
+
+feesRate: public(uint256)
+feesBalance: public(uint256)
 
 @external
-def __init__():
+def __init__(_feesRate: uint256, legendsAddress:address):
     """
     @dev Contract constructor.
     """
     self.owner = msg.sender
     self.baseURL = "https://api.babby.xyz/metadata/"
+    self.fortunesMinted = 0
+    self.feesRate = _feesRate
+    self.legendsContract = LegendsContract(legendsAddress)
 
 
 @pure
@@ -327,17 +349,19 @@ def setApprovalForAll(_operator: address, _approved: bool):
 
 ### MINT & BURN FUNCTIONS ###
 
+@payable
 @external
-def mintFortune(_to: address, _tokenId: uint256) -> bool:
+def mintFortune(_to: address) -> bool:
     """
     @dev Function to mint tokens
          Throws if `msg.sender` is not the owner.
          Throws if `_to` is zero address.
          Throws if `_tokenId` is owned by someone.
     @param _to The address that will receive the minted tokens.
-    @param _tokenId The token id to mint.
     @return A boolean that indicates if the operation was successful.
     """
+    fees: uint256 = msg.value * self.feesRate / 100
+    tokenId:uint256 = self.fortunesMinted + 1
     # Throws if `msg.sender` is not the owner
     assert msg.sender == self.owner
     if self.lastMintedDate[msg.sender] + 3600*24 > block.timestamp:  # and if less 24 hours passed since last mint
@@ -345,9 +369,18 @@ def mintFortune(_to: address, _tokenId: uint256) -> bool:
     else:   # Throws if `_to` is zero address
         assert _to != empty(address)
         # Add NFT. Throws if `_tokenId` is owned by someone
-        self._addTokenTo(_to, _tokenId)
+        self._addTokenTo(_to, tokenId)
         self.lastMintedDate[msg.sender] = block.timestamp
-        log Transfer(empty(address), _to, _tokenId)
+        self.fortunesRegistry[tokenId] = FortuneCard({
+            tribute: msg.value,
+            mintedDate: block.timestamp,
+            mintedBlock: block.number,
+            randomness: block.prevrandao
+        })
+        self.fortunesMinted += 1
+        self.feesBalance += fees
+        self.tributesPlaying += msg.value - fees
+        log Transfer(empty(address), _to, tokenId)
         return True
 
 
@@ -363,10 +396,18 @@ def burnFortune(_tokenId: uint256):
     # Check requirements
     assert self._isApprovedOrOwner(msg.sender, _tokenId)
     owner: address = self.idToOwner[_tokenId]
+    # Check 5 minutes have passed since mint
+    assert self.fortunesRegistry[_tokenId].mintedDate + 300 < block.timestamp
     # Throws if `_tokenId` is not a valid NFT
     assert owner != empty(address)
     self._clearApproval(owner, _tokenId)
     self._removeTokenFrom(owner, _tokenId)
+
+    # Return the tribute
+    tribute: uint256 = self.fortunesRegistry[_tokenId].tribute
+    amountToReturn: uint256 = tribute * (100-self.feesRate) / 100
+    send(msg.sender, amountToReturn)
+    self.tributesPlaying -= amountToReturn
     log Transfer(owner, empty(address), _tokenId)
 
 
@@ -379,3 +420,15 @@ def tokenURI(tokenId: uint256) -> String[132]:
 def updateBaseURL(_baseURL: String[53]):
     assert msg.sender == self.owner
     self.baseURL = _baseURL
+
+@external
+def setFees(_newFeesRate: uint256):
+    assert _newFeesRate <= 10
+    assert msg.sender == self.owner
+    self.feesRate = _newFeesRate
+
+@external
+def withdrawFees():
+    assert msg.sender == self.owner
+    send(self.owner, self.feesBalance)
+    self.feesBalance = 0
