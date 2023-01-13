@@ -21,4 +21,9 @@ def mockedNFT(sudo, project):
 
 @pytest.fixture
 def fortune(sudo, project, mockedNFT):
-    return project.fortune.deploy("Saturn Fortunes", "FORTUNE",0, mockedNFT, 5,sender=sudo)
+    return project.fortune.deploy("OLD Fortunes", "OLD",0, mockedNFT, 5,sender=sudo)
+
+
+@pytest.fixture
+def f721(sudo, project, mockedNFT):
+    return project.fortune721.deploy(sender=sudo)
