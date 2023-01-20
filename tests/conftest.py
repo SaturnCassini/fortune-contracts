@@ -23,7 +23,21 @@ def mockedNFT(sudo, project):
 def fortune(sudo, project, mockedNFT):
     return project.fortune.deploy("OLD Fortunes", "OLD",0, mockedNFT, 5,sender=sudo)
 
+@pytest.fixture
+def ERC20(sudo, project):
+    return project.ERC20.deploy("Staked Eth", "stETH", 8, sender=sudo)
 
 @pytest.fixture
-def f721(sudo, project, mockedNFT):
-    return project.fortune721.deploy(5, mockedNFT, sender=sudo)
+def curvePool(sudo, project, ERC20):
+    return project.stethpool.deploy(
+        sudo, 
+        [0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE, 0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84],
+        ERC20,
+        50,
+        4,
+        2,
+        sender=sudo)
+
+@pytest.fixture
+def f721(sudo, project, mockedNFT, curvePool):
+    return project.fortune721.deploy(5, mockedNFT, curvePool, sender=sudo)
