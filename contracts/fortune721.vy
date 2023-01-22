@@ -82,19 +82,19 @@ SUPPORTED_INTERFACES: constant(bytes4[2]) = [
 interface LegendsContract:
     def balanceOf(_owner: address) -> uint256: view
 
-interface CurvePool:
-    def add_liquidity(amounts: uint256[2], min_mint_amount: uint256) -> uint256: payable
-    def remove_liquidity(_amount: uint256, _min_amounts: uint256[2],) -> uint256[2]: nonpayable
+# interface CurvePool:
+#     def add_liquidity(amounts: uint256[2], min_mint_amount: uint256) -> uint256: payable
+#     def remove_liquidity(_amount: uint256, _min_amounts: uint256[2],) -> uint256[2]: nonpayable
 
 struct FortuneCard:
     tribute: uint256
     mintedDate: uint256
     mintedBlock: uint256
     randomness: uint256
-    coinsMinted: uint256
+    # coinsMinted: uint256
 
 legendsContract: LegendsContract
-curvePool: CurvePool
+# curvePool: CurvePool
 
 fortunesMinted: public(uint256)
 fortunesRegistry: HashMap[uint256, FortuneCard]
@@ -117,7 +117,7 @@ def __init__(_feesRate: uint256, legendsAddress:address, curvePool:address):
     self.fortunesMinted = 0
     self.feesRate = _feesRate
     self.legendsContract = LegendsContract(legendsAddress)
-    self.curvePool = CurvePool(curvePool)
+    # self.curvePool = CurvePool(curvePool)
 
 @pure
 @external
@@ -371,14 +371,14 @@ def mintFortune(_to: address) -> bool:
     fees: uint256 = msg.value * self.feesRate / 100
     tokenId:uint256 = self.fortunesMinted + 1
     # Throws if `msg.sender` is not the owner
-    assert msg.sender == self.owner
+    assert msg.sender == self.owner, "Not the owner"
     if self.legendsContract.balanceOf(msg.sender) > 0:  
         if self.lastMintedDate[msg.sender] + 3600*24 > block.timestamp:  # and if less 24 hours passed since last mint
             raise "You can only mint once a day"                     #     then raise error
         else:   # Throws if `_to` is zero address
-            assert _to != empty(address)
+            assert _to != empty(address), "Not zero address"
             #mint LP tokens
-            coins: uint256 = self.curvePool.add_liquidity([msg.value - fees, 0], 0)
+            # coins: uint256 = self.curvePool.add_liquidity([msg.value - fees, 0], 0)
 
             # Add NFT. Throws if `_tokenId` is owned by someone
             self._addTokenTo(_to, tokenId)
@@ -388,7 +388,7 @@ def mintFortune(_to: address) -> bool:
                 mintedDate: block.timestamp,
                 mintedBlock: block.number,
                 randomness: block.prevrandao,
-                coinsMinted: coins
+                # coinsMinted: coins
             })
             self.fortunesMinted += 1
             self.feesBalance += fees
@@ -419,10 +419,9 @@ def burnFortune(_tokenId: uint256):
     self._removeTokenFrom(owner, _tokenId)
 
     # Return the tribute
-    coins: uint256 = self.fortunesRegistry[_tokenId].coinsMinted
+    # coins: uint256 = self.fortunesRegistry[_tokenId].coinsMinted
     tribute: uint256 = self.fortunesRegistry[_tokenId].tribute
     amountToReturn: uint256 = tribute * (100-self.feesRate) / 100
-    self.curvePool.remove_liquidity(coins, [amountToReturn, 0])
     send(owner, amountToReturn)
     self.tributesPlaying -= amountToReturn
     log Transfer(owner, empty(address), _tokenId)

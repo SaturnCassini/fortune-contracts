@@ -1,8 +1,18 @@
 name: fortune-contracts
 plugins:
   - name: vyper
-  - name: alchemy
+  - name: infura
   - name: etherscan
+  - name: hardhat
   
 settings:
   gas_limit: "99999999999999999"
+
+
+hardhat:
+  port: auto
+  fork:
+    ethereum:
+      mainnet:
+        upstream_provider: infura
+        enable_hardhat_deployments: true

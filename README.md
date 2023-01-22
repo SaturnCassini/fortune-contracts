@@ -29,12 +29,8 @@ The output of good or bad has been naively randomized, it uses a mix of `block.p
 The challenge of the game consists on using any means possible (MEV) to get as many GOOD fortune events emited for burning the FORTUNE tokens.
 
 # Getting Started
-Create the environment
-`python3 -m venv`
-
 Activate the environmante
-`source venv/bin/activate`
-
+`source apeenv/bin/activate`
 
 Change directories
 `cd contracts`

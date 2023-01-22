@@ -28,16 +28,14 @@ def ERC20(sudo, project):
     return project.ERC20.deploy("Staked Eth", "stETH", 8, sender=sudo)
 
 @pytest.fixture
-def curvePool(sudo, project, ERC20):
-    return project.stethpool.deploy(
-        sudo, 
-        [0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE, 0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84],
-        ERC20,
-        50,
-        4,
-        2,
-        sender=sudo)
+def curvePool():
+    return '0xC3DC5292caF0C3350c1Be8E5f8c36E10A6B12a6b'
 
 @pytest.fixture
 def f721(sudo, project, mockedNFT, curvePool):
     return project.fortune721.deploy(5, mockedNFT, curvePool, sender=sudo)
+
+
+@pytest.fixture
+def curveContract(Contract):
+    return Contract("0xDC24316b9AE028F1497c275EB9192a3Ea0f67022")
